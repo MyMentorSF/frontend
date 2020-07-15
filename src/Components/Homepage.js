@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Button } from "@material-ui/core";
+import { makeStyles, Button, List, ListItem } from "@material-ui/core";
 import { Toolbar, AppBar, Typography } from "@material-ui/core";
 
 import Background from "../img/background.jpg";
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   bgImage: {
     minHeight: "100vh",
+    backgroundColor: "#FFFFFF",
     backgroundImage: `url(${Background})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
@@ -55,7 +56,12 @@ export default function Homepage() {
   return (
     <>
       {/* <HomepageAppBar /> */}
-      <div className={classes.bgImage}>Hello world</div>
+      <div className={classes.bgImage}>
+        <List>
+          <ListItem>Hello</ListItem>
+          <ListItem>Hi</ListItem>
+        </List>
+      </div>
     </>
   );
 }

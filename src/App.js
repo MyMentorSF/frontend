@@ -2,10 +2,10 @@ import "fontsource-roboto";
 import "./App.css";
 import React from "react";
 import { makeStyles, CssBaseline } from "@material-ui/core";
-import ApplicationBar from "./components/ApplicationBar";
+import ApplicationBar from "./Components/ApplicationBar";
 
 // Pages
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./Components/Dashboard";
 import Homepage from "./Components/Homepage";
 
 import { Route, Redirect, Switch } from "react-router-dom";
@@ -31,6 +31,7 @@ function App() {
       <div className={classes.mainDisplay}>
         <Switch>
           <Route exact path="/" component={Homepage}>
+            {/* TODO AppBar different for logged in and homepage */}
             <Redirect to="/homepage" />
           </Route>
           <Route exact path="/dashboard" component={Dashboard} />

@@ -48,12 +48,14 @@ function ApplicationBar() {
   return (
     <AppBar className={classes.appBar} position="static">
       <Toolbar color="primary">
+        <NavLink to="/dashboard">
         <ButtonBase focusRipple aria-label="go to dashboard" color="inherit">
           <img className={classes.avatar} src={logo} alt="Logo" />
           <Typography className={classes.title}>MY MENTOR</Typography>
         </ButtonBase>
-
+        </NavLink>
         <div className={classes.sectionOfIcons}>
+          
           <IconButton aria-label="show new messages" color="inherit">
             <Badge badgeContent={0} color="secondary">
               {/*Replace badgeContent with notificaton counters*/}
