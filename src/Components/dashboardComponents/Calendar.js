@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     width: "60em",
     maxHeight: "50em",
     overflowY: "scroll",
+    overFlowX: "scroll",
   },
 }));
 
@@ -90,7 +91,7 @@ function Calendar() {
         <ConfirmationDialog />
         <Appointments />
         <AppointmentTooltip showOpenButton showDeleteButton />
-        <AppointmentForm />
+        <AppointmentForm messages={{ detailsLabel: "WoW" }} />
         <DateNavigator />
         <ViewSwitcher />
       </Scheduler>
