@@ -16,7 +16,7 @@ import logo from "./imgs/profile_pic.jpg";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from "@material-ui/icons/Search";
 import Calendar from "@material-ui/icons/DateRange";
 import { NavLink } from "react-router-dom";
 
@@ -53,10 +53,10 @@ function ApplicationBar() {
     <AppBar className={classes.appBar} position="static">
       <Toolbar color="primary">
         <NavLink to="/homepage" className={classes.navItem}>
-        <ButtonBase focusRipple aria-label="go to dashboard" color="inherit">
-          <img className={classes.avatar} src={logo} alt="Logo" />
-          <Typography className={classes.title}>MY MENTOR</Typography>
-        </ButtonBase>
+          <ButtonBase focusRipple aria-label="go to dashboard" color="inherit">
+            <img className={classes.avatar} src={logo} alt="Logo" />
+            <Typography className={classes.title}>MY MENTOR</Typography>
+          </ButtonBase>
         </NavLink>
         <div className={classes.sectionOfIcons}>
 
@@ -82,14 +82,14 @@ function ApplicationBar() {
             </IconButton>
           </NavLink>
           <NavLink to="/profile" className={classes.navItem}>
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-controls="menu"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <AccountCircle />
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls="menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
             </IconButton>
           </NavLink>
         </div>
