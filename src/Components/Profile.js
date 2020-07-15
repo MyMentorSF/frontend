@@ -171,7 +171,7 @@ export default function Profile({ uuid, match }) {
           <br />
           <Box className={classes.chipContainer}>
             {user.interests.map((interest) => (
-              <Chip label={interest} size="small" disabled />
+              <Chip label={interest} size="small" disabled key={interest} />
             ))}
           </Box>
           <br />
