@@ -14,6 +14,7 @@ import BusinessIcon from "@material-ui/icons/Business";
 import { user as serverResponse } from "./stub";
 
 const mainColor = "#EDEDED";
+const lightBlack = "#363636";
 const accentColor = "#231F38";
 const accentColor2 = "#1A1A1A";
 const white = "#FAFAFA";
@@ -109,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 0 8px",
     "& > *:first-child": {
       marginRight: 4,
+      // color: lightBlack,
     },
     "& > *:nth-child(2)": {
       lineHeight: 1.2,
@@ -122,16 +124,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile() {
+export default function Profile({ uuid, match }) {
   const classes = useStyles();
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
 
   useEffect(() => {
-    console.log(
-      "serverResponse.results[0].publicProfile",
-      serverResponse.results[0].publicProfile
-    );
+    console.log("Params:", match?.params);
     setUser(serverResponse.results[0].publicProfile);
     setUserPrivate(serverResponse.results[0].privateProfile);
   }, []);
@@ -198,9 +197,23 @@ export default function Profile() {
           {/* <Paper className={classes.buttonGroup} variant="outlined"></Paper> */}
           <Paper variant="outlined">
             <Typography variant="subtitle2" gutterBottom>
-              Interests
+              Reviews
             </Typography>
-
+            <Box className={classes.review}>
+              <Box className={classes.reviewHeader}>
+                <Box className={classes.reviewImage}></Box>
+                <Typography variant="h6">Dale Ortega</Typography>
+              </Box>
+              <Box className={classes.reviewBody}>
+                <Typography variant="body2" color="textSecondary">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  ut nisi urna. Cras elementum tempus sem sed efficitur. Ut
+                  venenatis dui odio, sed euismod libero mattis at. Mauris
+                  dapibus dignissim odio, quis sollicitudin enim imperdiet
+                  euismod.
+                </Typography>
+              </Box>
+            </Box>
             <Typography variant="body1">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
               convallis pulvinar felis, id ultrices lorem dignissim vitae. Cras
