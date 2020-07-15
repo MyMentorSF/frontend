@@ -2,13 +2,15 @@ import "fontsource-roboto";
 import "./App.css";
 import React from "react";
 import { makeStyles, CssBaseline } from "@material-ui/core";
-
 import ApplicationBar from "./components/ApplicationBar";
-import Dashboard from "./components/Dashboard";
-import Profile from "./components/Profile";
-// Pages
 
-const loggedIn = false;
+// Pages
+import Dashboard from "./components/Dashboard";
+import Homepage from "./components/Homepage";
+import Profile from "./components/Profile";
+
+import { Route, Redirect, Switch } from "react-router-dom";
+import SearchPage from "./components/searchPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,11 +27,18 @@ function App() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <ApplicationBar />
+      <CssBaseline />
       <div className={classes.mainDisplay}>
-        {/* <Profile /> */}
-        <Dashboard />
+        <Switch>
+          <Route exact path="/" component={Homepage}>
+            {/* TODO AppBar different for logged in and homepage */}
+            <Redirect to="/homepage" />
+          </Route>
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/search" component={SearchPage} />
+        </Switch>
       </div>
     </div>
   );
