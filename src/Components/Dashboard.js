@@ -4,7 +4,7 @@ import { Grid } from "@material-ui/core";
 
 import ProfileCard from "./dashboardComponents/ProfileCard";
 import Calendar from "./dashboardComponents/Calendar";
-
+import Agenda from "./dashboardComponents/Agenda";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -22,7 +22,9 @@ function Dashboard() {
             <Grid item>
               <ProfileCard />
             </Grid>
-            <Grid item>{/* <Calendar /> */}</Grid>
+            <Grid item>
+              <Agenda />
+            </Grid>
           </Grid>
         </Grid>
         <Grid item>
