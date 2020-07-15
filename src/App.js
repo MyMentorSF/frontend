@@ -5,8 +5,10 @@ import { makeStyles, CssBaseline } from "@material-ui/core";
 
 import ApplicationBar from "./components/ApplicationBar";
 import Dashboard from "./components/Dashboard";
-
+import Profile from "./components/Profile";
 // Pages
+
+const loggedIn = false;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100vw",
   },
   mainDisplay: {
-    display: "flex",
     margin: "0px 150px 0px 150px",
   },
 }));
@@ -27,6 +28,7 @@ function App() {
       <CssBaseline />
       <ApplicationBar />
       <div className={classes.mainDisplay}>
+        {/* <Profile /> */}
         <Dashboard />
       </div>
     </div>

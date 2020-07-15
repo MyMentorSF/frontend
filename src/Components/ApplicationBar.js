@@ -21,7 +21,6 @@ import Calendar from "@material-ui/icons/DateRange";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     flexGrow: 1,
-    marginBottom: "20px",
   },
   title: {
     fontFamily: "Roboto",
