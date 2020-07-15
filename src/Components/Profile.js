@@ -5,6 +5,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import Chip from "@material-ui/core/Chip";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 
+import { user as serverResponse } from "./stub";
+
 const mainColor = "#EDEDED";
 const accentColor = "#231F38";
 const accentColor2 = "#1A1A1A";
@@ -12,7 +14,7 @@ const white = "#FAFAFA";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: white,
+    // background: white,
     minHeight: "100vh",
     marginLeft: "auto",
     marginRight: "auto",
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     height: "200px",
-    padding: "24px 64px 0px",
+    padding: "24px 32px 0px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "flex-start",
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   editProfile: {},
 
   body: {
-    padding: "0 64px",
+    padding: "0 32px",
     borderRadius: 2,
     display: "flex",
     justifyContent: "space-between",
@@ -75,26 +77,60 @@ const useStyles = makeStyles((theme) => ({
 
   content: {
     padding: 8,
+    marginTop: 32,
     minHeight: 200,
     flex: 8,
     "& > *": {
       padding: "16px 16px",
-      margin: "16px 8px",
+      margin: "0px 8px 16px",
     },
   },
 
-  buttonGroup: { minHeight: 200 },
+  buttonGroup: { minHeight: 72 },
 
-  asideRight: { flex: 3 },
+  asideRight: {
+    marginTop: 32,
+    padding: 8,
+    flex: 3,
+    "& > *": {
+      marginBottom: 24,
+    },
+  },
+  status: {},
+  stat: {
+    display: "flex",
+    flexWrap: "wrap",
+    margin: "0 0 8px",
+    "& > *:first-child": {
+      marginRight: 4,
+    },
+    "& > *:nth-child(2)": {
+      lineHeight: 1.2,
+      marginRight: 8,
+    },
+  },
+  statusButton: {
+    "& > *": {
+      width: "100%",
+    },
+  },
 }));
 
 export default function Profile() {
   const classes = useStyles();
-  // const [headerImage, setHeaderImage] = useState(accentColor);
+  const [user, setUser] = useState(null);
+  const [userPrivate, setUserPrivate] = useState(null);
 
-  // useEffect(() => {
-  //   fetch("https://source.unsplash.com/random")
-  // }, []);
+  useEffect(() => {
+    console.log(
+      "serverResponse.results[0].publicProfile",
+      serverResponse.results[0].publicProfile
+    );
+    setUser(serverResponse.results[0].publicProfile);
+    setUserPrivate(serverResponse.results[0].privateProfile);
+  }, []);
+
+  if (!user) return <>Loading</>;
 
   return (
     <div className={classes.root}>
@@ -117,16 +153,21 @@ export default function Profile() {
       <Container className={classes.body}>
         <Box className={classes.asideLeft}>
           <Box boxShadow={3} className={classes.profilePic}></Box>
-          <Typography variant="h6">Stephen Munoz</Typography>
+          <Typography variant="h6">
+            {user && user.firstName} {user && user.lastName}
+          </Typography>
           <Typography variant="subtitle2" color="textSecondary">
             Software Developer
           </Typography>
+          <Typography variant="subtitle2" color="textSecondary">
+            {user && user.role} at {user.department}
+          </Typography>
+
           <br />
           <Box className={classes.chipContainer}>
-            <Chip label="Jr. Developer" size="small" disabled></Chip>
-            <Chip label="Software Developer I" size="small" disabled></Chip>
-            <Chip label="SD II" size="small" disabled></Chip>
-            <Chip label="SD III" size="small" disabled></Chip>
+            {user.interests.map((interest) => (
+              <Chip label={interest} size="small" disabled />
+            ))}
           </Box>
           <br />
           <Box>
@@ -134,6 +175,7 @@ export default function Profile() {
               Hi, my name is Stephen Munoz. I am a software developer.
             </Typography>
           </Box>
+          <br />
           <br />
           <br />
           <Box display="flex" justifyContent="center">
@@ -149,8 +191,8 @@ export default function Profile() {
         </Box>
 
         <Box className={classes.content}>
-          <Paper className={classes.buttonGroup}></Paper>
-          <Paper>
+          <Paper className={classes.buttonGroup} variant="outlined"></Paper>
+          <Paper variant="outlined">
             <Typography variant="subtitle2" gutterBottom>
               Interests
             </Typography>
@@ -179,7 +221,90 @@ export default function Profile() {
             </Typography>
           </Paper>
         </Box>
-        <Box className={classes.asideRight}></Box>
+        <Box className={classes.asideRight}>
+          <Box className={classes.status}>
+            {user && user.isMentor && (
+              <Box display="flex" alignItems="center" className={classes.stat}>
+                <SupervisedUserCircleIcon color="secondary" />
+                <Typography variant="subtitle1" color="textPrimary">
+                  Mentor
+                </Typography>
+              </Box>
+            )}
+
+            {user && user.isMentee && (
+              <Box display="flex" alignItems="center" className={classes.stat}>
+                <SupervisedUserCircleIcon color="secondary" />
+                <Typography variant="subtitle1" color="textPrimary">
+                  Mentee
+                </Typography>
+              </Box>
+            )}
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <SupervisedUserCircleIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Location
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user.location}
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <SupervisedUserCircleIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Industry Experience
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user && user.yearsOfExperience} Years
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <SupervisedUserCircleIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Education
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user.education.school}
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <SupervisedUserCircleIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Graduated
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "short",
+                }).format(new Date(user.education.gradDate))}
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <SupervisedUserCircleIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Major
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user.education.degreeType} in {user.education.major}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box className={classes.statusButton}>
+            <Button variant="contained" color="secondary" disableElevation>
+              Action 1
+            </Button>
+          </Box>
+          <Box className={classes.statusButton}>
+            <Button variant="outlined" color="secondary" disableElevation>
+              Action 2
+            </Button>
+          </Box>
+        </Box>
       </Container>
     </div>
   );
