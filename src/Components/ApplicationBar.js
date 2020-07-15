@@ -80,7 +80,7 @@ function ApplicationBar() {
               <Calendar />
             </IconButton>
           </NavLink>
-          <NavLink to="/profile" className={classes.navItem}>
+          <NavLink to="/profile/:uuid" className={classes.navItem}>
             <IconButton
               edge="end"
               aria-label="account of current user"
