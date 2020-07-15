@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core";
 import "./App.css";
 
 import ApplicationBar from "./Components/ApplicationBar";
+import Profile from "./Components/profile/Profile"
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#f2e7d5",
@@ -16,9 +18,11 @@ function App() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <ApplicationBar />
+      {/* <ApplicationBar /> */}
+      <Profile />
     </div>
   );
 }
 
 export default App;
+
