@@ -1,10 +1,12 @@
-import React from "react";
 import "fontsource-roboto";
-import { makeStyles, CssBaseline } from "@material-ui/core";
 import "./App.css";
+import React from "react";
+import { makeStyles, CssBaseline } from "@material-ui/core";
+import ApplicationBar from "./components/ApplicationBar";
 
-import ApplicationBar from "./Components/ApplicationBar";
-import Homepage from "./Components/Homepage"
+// Pages
+import Dashboard from "./components/Dashboard";
+import Homepage from "./Components/Homepage";
 
 import { Route, Redirect, Switch } from "react-router-dom";
 
@@ -15,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100vw",
   },
   mainDisplay: {
+    display: "flex",
     margin: "0px 150px 0px 150px",
   },
 }));
@@ -30,7 +33,7 @@ function App() {
           <Route exact path="/" component={Homepage}>
             <Redirect to="/homepage" />
           </Route>
-          {/* <Route exact path="/dashboard" component={<Dashboard />} /> */}
+          <Route exact path="/dashboard" component={Dashboard} />
         </Switch>
       </div>
     </div>
