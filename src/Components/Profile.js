@@ -14,7 +14,7 @@ const white = "#FAFAFA";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // background: white,
+    // background: white, // to add or not to add
     minHeight: "100vh",
     marginLeft: "auto",
     marginRight: "auto",
@@ -171,9 +171,7 @@ export default function Profile() {
           </Box>
           <br />
           <Box>
-            <Typography variant="body2">
-              Hi, my name is Stephen Munoz. I am a software developer.
-            </Typography>
+            <Typography variant="body2">{user.description}</Typography>
           </Box>
           <br />
           <br />
@@ -191,7 +189,7 @@ export default function Profile() {
         </Box>
 
         <Box className={classes.content}>
-          <Paper className={classes.buttonGroup} variant="outlined"></Paper>
+          {/* <Paper className={classes.buttonGroup} variant="outlined"></Paper> */}
           <Paper variant="outlined">
             <Typography variant="subtitle2" gutterBottom>
               Interests
