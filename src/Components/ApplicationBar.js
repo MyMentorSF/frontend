@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Button } from "@material-ui/core";
 import { Toolbar, IconButton, AppBar, Typography } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
 
@@ -8,6 +8,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Calendar from "@material-ui/icons/DateRange";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -28,7 +29,9 @@ function ApplicationBar() {
   return (
     <AppBar className={classes.appBar} position="static">
       <Toolbar>
-        <Typography variant="h5">My Mentor</Typography>
+        <NavLink to="/">
+          <Typography variant="h5">My Mentor</Typography>
+        </NavLink>
 
         <div className={classes.sectionOfIcons}>
           <IconButton aria-label="show 4 new mails" color="inherit">
