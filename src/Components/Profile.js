@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     // border: "solid blue 1px",
     "& > *": {
-      margin: "4px 4px",
+      margin: "4px 2px",
     },
   },
 
@@ -101,14 +101,16 @@ export default function Profile() {
       <div className={classes.header}>
         <div className={classes.headerLeft}></div>
         <div className={classes.editProfile}>
-          <Button
-            size="small"
-            variant="contained"
-            color="secondary"
-            startIcon={<EditIcon />}
-          >
-            Edit Profile
-          </Button>
+          <Box boxShadow={3}>
+            <Button
+              size="small"
+              variant="contained"
+              color="secondary"
+              startIcon={<EditIcon />}
+            >
+              Edit Profile
+            </Button>
+          </Box>
         </div>
       </div>
 
