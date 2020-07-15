@@ -16,13 +16,13 @@ import logo from "./imgs/profile_pic.jpg";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import SearchIcon from '@material-ui/icons/Search';
 import Calendar from "@material-ui/icons/DateRange";
 import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     flexGrow: 1,
-    marginBottom: "20px",
   },
   title: {
     fontFamily: "Roboto",
@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     height: "32px",
     width: "32px",
   },
+  navItem: {
+    color: "inherit",
+    textDecoration: "none"
+  }
 }));
 
 function ApplicationBar() {
@@ -48,14 +52,14 @@ function ApplicationBar() {
   return (
     <AppBar className={classes.appBar} position="static">
       <Toolbar color="primary">
-        <NavLink to="/dashboard">
+        <NavLink to="/homepage" className={classes.navItem}>
         <ButtonBase focusRipple aria-label="go to dashboard" color="inherit">
           <img className={classes.avatar} src={logo} alt="Logo" />
           <Typography className={classes.title}>MY MENTOR</Typography>
         </ButtonBase>
         </NavLink>
         <div className={classes.sectionOfIcons}>
-          
+
           <IconButton aria-label="show new messages" color="inherit">
             <Badge badgeContent={0} color="secondary">
               {/*Replace badgeContent with notificaton counters*/}
@@ -67,9 +71,17 @@ function ApplicationBar() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton aria-label="check events" color="inherit">
-            <Calendar />
-          </IconButton>
+          <NavLink to="/search" className={classes.navItem}>
+            <IconButton aria-label="search mentors" color="inherit">
+              <SearchIcon />
+            </IconButton>
+          </NavLink>
+          <NavLink to="/dashboard" className={classes.navItem}>
+            <IconButton aria-label="check events" color="inherit">
+              <Calendar />
+            </IconButton>
+          </NavLink>
+          <NavLink to="/profile" className={classes.navItem}>
           <IconButton
             edge="end"
             aria-label="account of current user"
@@ -78,7 +90,8 @@ function ApplicationBar() {
             color="inherit"
           >
             <AccountCircle />
-          </IconButton>
+            </IconButton>
+          </NavLink>
         </div>
       </Toolbar>
     </AppBar>

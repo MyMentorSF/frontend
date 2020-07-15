@@ -8,6 +8,7 @@ import Calendar from "./dashboardComponents/Calendar";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginTop: "20px",
   },
 }));
 
