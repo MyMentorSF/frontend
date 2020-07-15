@@ -1,14 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
-import {
-  Toolbar,
-  IconButton,
-  AppBar,
-  Button,
-  Typography,
-  Box,
-  Container,
-} from "@material-ui/core";
+import { Paper, Button, Typography, Box, Container } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import Chip from "@material-ui/core/Chip";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
@@ -22,12 +14,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     background: white,
     minHeight: "100vh",
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: "1280px",
   },
   header: {
-    background: accentColor,
-    // width: "100vw",
+    background: `url(https://source.unsplash.com/random) ${accentColor}`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     height: "200px",
-    padding: "16px 64px 0px",
+    padding: "24px 64px 0px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "flex-start",
@@ -44,35 +41,47 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     "& > *": {
-      // border: `solid 1px #f50057`,
-      outline: "dotted 1px #f50057",
+      // outline: "dotted 1px #f50057",
     },
   },
   asideLeft: {
-    paddingTop: 64 + 24,
+    paddingTop: 64 + 45,
     minHeight: 200,
     flex: 3,
     position: "relative",
   },
   profilePic: {
-    background: "grey",
+    background:
+      "url(https://api.adorable.io/avatars/285/abott@adorable.png) grey",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     border: `solid 4px ${white}`,
-    width: 128,
-    height: 128,
+    width: 128 + 32,
+    height: 128 + 32,
     borderRadius: "100%",
     position: "absolute",
-    top: -64,
-    left: "calc(100% / 2)",
+    top: -64 - 16,
+
+    // left: "calc(128px / 2)",
   },
   chipContainer: {
     textAlign: "left",
-    border: "solid blue 1px",
+    // border: "solid blue 1px",
     "& > *": {
       margin: "4px 4px",
     },
   },
 
-  content: { minHeight: 200, flex: 8 },
+  content: {
+    padding: 8,
+    minHeight: 200,
+    flex: 8,
+    "& > *": {
+      padding: "16px 16px",
+      margin: "16px 8px",
+    },
+  },
 
   buttonGroup: { minHeight: 200 },
 
@@ -81,6 +90,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
   const classes = useStyles();
+  // const [headerImage, setHeaderImage] = useState(accentColor);
+
+  // useEffect(() => {
+  //   fetch("https://source.unsplash.com/random")
+  // }, []);
 
   return (
     <div className={classes.root}>
@@ -120,21 +134,48 @@ export default function Profile() {
           </Box>
           <br />
           <br />
-          <br />
           <Box display="flex" justifyContent="center">
             <Button
-              size="small"
+              size="medium"
               variant="contained"
               color="primary"
               startIcon={<SupervisedUserCircleIcon />}
             >
-              Request for Mentorship
+              Request
             </Button>
           </Box>
         </Box>
 
         <Box className={classes.content}>
-          <Box className={classes.buttonGroup}>Button Row</Box>
+          <Paper className={classes.buttonGroup}></Paper>
+          <Paper>
+            <Typography variant="subtitle2" gutterBottom>
+              Interests
+            </Typography>
+
+            <Typography variant="body1">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              convallis pulvinar felis, id ultrices lorem dignissim vitae. Cras
+              sit amet sapien purus. Sed auctor consequat dui, suscipit blandit
+              libero convallis rutrum. Curabitur vel lorem eros. Suspendisse ut
+              felis odio. Integer imperdiet tincidunt libero sit amet ultricies.
+              Proin dignissim, mi at pellentesque imperdiet, augue risus
+              facilisis purus, bibendum feugiat dolor orci a massa. Sed aliquet,
+              nibh nec venenatis molestie, lacus urna rutrum arcu, eget
+              facilisis diam ligula molestie nisl. Nullam cursus ac augue ac
+              ornare.
+            </Typography>
+            <br />
+            <Typography variant="body1">
+              Praesent a velit in quam dictum elementum. Nam viverra urna non
+              urna bibendum, vitae molestie ex molestie. Pellentesque tempor
+              sodales orci vel pretium. Integer sit amet interdum velit.
+              Praesent bibendum dolor id sapien tristique, vitae finibus orci
+              vestibulum. Suspendisse mattis eu est eget congue. Maecenas
+              pulvinar sit amet sem sed convallis. Vestibulum scelerisque id mi
+              at pellentesque.
+            </Typography>
+          </Paper>
         </Box>
         <Box className={classes.asideRight}></Box>
       </Container>
