@@ -57,7 +57,7 @@ function Calendar() {
       if (added) {
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
+        data = [...data, { id: startingAddedId, ...added }]; // Push to ddb everything cept id and guestConfirmed
       }
       if (changed) {
         data = data.map((appointment) =>
