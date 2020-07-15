@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
   },
   navItem: {
     color: "inherit",
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+  },
 }));
 
 function ApplicationBar() {
@@ -59,7 +59,6 @@ function ApplicationBar() {
           </ButtonBase>
         </NavLink>
         <div className={classes.sectionOfIcons}>
-
           <IconButton aria-label="show new messages" color="inherit">
             <Badge badgeContent={0} color="secondary">
               {/*Replace badgeContent with notificaton counters*/}

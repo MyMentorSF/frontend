@@ -1,33 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
-import {
-  Toolbar,
-  IconButton,
-  AppBar,
-  Button,
-  Typography,
-  Box,
-  Container,
-} from "@material-ui/core";
+import { Paper, Button, Typography, Box, Container } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import Chip from "@material-ui/core/Chip";
-import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import SchoolIcon from "@material-ui/icons/School";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import WorkIcon from "@material-ui/icons/Work";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
+import ClassIcon from "@material-ui/icons/Class";
+import AssessmentIcon from "@material-ui/icons/Assessment";
+import BusinessIcon from "@material-ui/icons/Business";
+
+import { user as serverResponse } from "./stub";
 
 const mainColor = "#EDEDED";
+const lightBlack = "#363636";
 const accentColor = "#231F38";
 const accentColor2 = "#1A1A1A";
 const white = "#FAFAFA";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: white,
+    // background: white, // to add or not to add
     minHeight: "100vh",
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: "1280px",
   },
   header: {
-    background: accentColor,
-    // width: "100vw",
+    background: `url(https://source.unsplash.com/random) ${accentColor}`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     height: "200px",
-    padding: "16px 64px 0px",
+    padding: "24px 32px 0px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "flex-start",
@@ -39,104 +45,283 @@ const useStyles = makeStyles((theme) => ({
   editProfile: {},
 
   body: {
-    padding: "0 64px",
+    padding: "0 32px",
     borderRadius: 2,
     display: "flex",
     justifyContent: "space-between",
     "& > *": {
-      // border: `solid 1px #f50057`,
-      outline: "dotted 1px #f50057",
+      // outline: "dotted 1px #f50057",
     },
   },
   asideLeft: {
-    paddingTop: 64 + 24,
+    paddingTop: 64 + 45,
     minHeight: 200,
     flex: 3,
     position: "relative",
   },
   profilePic: {
-    background: "grey",
+    background:
+      "url(https://api.adorable.io/avatars/285/abott@adorable.png) grey",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     border: `solid 4px ${white}`,
-    width: 128,
-    height: 128,
+    width: 128 + 32,
+    height: 128 + 32,
     borderRadius: "100%",
     position: "absolute",
-    top: -64,
-    left: "calc(100% / 2)",
+    top: -64 - 16,
+
+    // left: "calc(128px / 2)",
   },
   chipContainer: {
     textAlign: "left",
-    border: "solid blue 1px",
+    // border: "solid blue 1px",
     "& > *": {
-      margin: "4px 4px",
+      margin: "4px 2px",
     },
   },
 
-  content: { minHeight: 200, flex: 8 },
+  content: {
+    padding: 8,
+    marginTop: 32,
+    minHeight: 200,
+    flex: 8,
+    "& > *": {
+      padding: "16px 16px",
+      margin: "0px 8px 16px",
+    },
+  },
 
-  buttonGroup: { minHeight: 200 },
+  buttonGroup: { minHeight: 72 },
 
-  asideRight: { flex: 3 },
+  asideRight: {
+    marginTop: 32,
+    padding: 8,
+    flex: 3,
+    "& > *": {
+      marginBottom: 24,
+    },
+  },
+  status: {},
+  stat: {
+    display: "flex",
+    flexWrap: "wrap",
+    margin: "0 0 8px",
+    "& > *:first-child": {
+      marginRight: 4,
+      // color: lightBlack,
+    },
+    "& > *:nth-child(2)": {
+      lineHeight: 1.2,
+      marginRight: 8,
+    },
+  },
+  statusButton: {
+    "& > *": {
+      width: "100%",
+    },
+  },
 }));
 
-export default function Profile() {
+export default function Profile({ uuid, match }) {
   const classes = useStyles();
+  const [user, setUser] = useState(null);
+  const [userPrivate, setUserPrivate] = useState(null);
+
+  useEffect(() => {
+    console.log("Params:", match?.params);
+    setUser(serverResponse.results[0].publicProfile);
+    setUserPrivate(serverResponse.results[0].privateProfile);
+  }, []);
+
+  if (!user) return <>Loading</>;
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
         <div className={classes.headerLeft}></div>
         <div className={classes.editProfile}>
-          <Button
-            size="small"
-            variant="contained"
-            color="secondary"
-            startIcon={<EditIcon />}
-          >
-            Edit Profile
-          </Button>
+          <Box boxShadow={3}>
+            <Button
+              size="small"
+              variant="contained"
+              color="secondary"
+              startIcon={<EditIcon />}
+            >
+              Edit Profile
+            </Button>
+          </Box>
         </div>
       </div>
 
       <Container className={classes.body}>
         <Box className={classes.asideLeft}>
           <Box boxShadow={3} className={classes.profilePic}></Box>
-          <Typography variant="h6">Stephen Munoz</Typography>
+          <Typography variant="h6">
+            {user && user.firstName} {user && user.lastName}
+          </Typography>
           <Typography variant="subtitle2" color="textSecondary">
             Software Developer
           </Typography>
+          <Typography variant="subtitle2" color="textSecondary">
+            {user && user.role} at {user.department}
+          </Typography>
+
           <br />
           <Box className={classes.chipContainer}>
-            <Chip label="Jr. Developer" size="small" disabled></Chip>
-            <Chip label="Software Developer I" size="small" disabled></Chip>
-            <Chip label="SD II" size="small" disabled></Chip>
-            <Chip label="SD III" size="small" disabled></Chip>
+            {user.interests.map((interest) => (
+              <Chip label={interest} size="small" disabled key={interest} />
+            ))}
           </Box>
           <br />
           <Box>
-            <Typography variant="body2">
-              Hi, my name is Stephen Munoz. I am a software developer.
-            </Typography>
+            <Typography variant="body2">{user.description}</Typography>
           </Box>
           <br />
           <br />
           <br />
           <Box display="flex" justifyContent="center">
             <Button
-              size="small"
+              size="medium"
               variant="contained"
               color="primary"
-              startIcon={<SupervisedUserCircleIcon />}
+              startIcon={<SupervisorAccountIcon />}
             >
-              Request for Mentorship
+              Request
             </Button>
           </Box>
         </Box>
 
         <Box className={classes.content}>
-          <Box className={classes.buttonGroup}>Button Row</Box>
+          {/* <Paper className={classes.buttonGroup} variant="outlined"></Paper> */}
+          <Paper variant="outlined">
+            <Typography variant="subtitle2" gutterBottom>
+              Reviews
+            </Typography>
+            <Box className={classes.review}>
+              <Box className={classes.reviewHeader}>
+                <Box className={classes.reviewImage}></Box>
+                <Typography variant="h6">Dale Ortega</Typography>
+              </Box>
+              <Box className={classes.reviewBody}>
+                <Typography variant="body2" color="textSecondary">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  ut nisi urna. Cras elementum tempus sem sed efficitur. Ut
+                  venenatis dui odio, sed euismod libero mattis at. Mauris
+                  dapibus dignissim odio, quis sollicitudin enim imperdiet
+                  euismod.
+                </Typography>
+              </Box>
+            </Box>
+            <Typography variant="body1">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              convallis pulvinar felis, id ultrices lorem dignissim vitae. Cras
+              sit amet sapien purus. Sed auctor consequat dui, suscipit blandit
+              libero convallis rutrum. Curabitur vel lorem eros. Suspendisse ut
+              felis odio. Integer imperdiet tincidunt libero sit amet ultricies.
+              Proin dignissim, mi at pellentesque imperdiet, augue risus
+              facilisis purus, bibendum feugiat dolor orci a massa. Sed aliquet,
+              nibh nec venenatis molestie, lacus urna rutrum arcu, eget
+              facilisis diam ligula molestie nisl. Nullam cursus ac augue ac
+              ornare.
+            </Typography>
+            <br />
+            <Typography variant="body1">
+              Praesent a velit in quam dictum elementum. Nam viverra urna non
+              urna bibendum, vitae molestie ex molestie. Pellentesque tempor
+              sodales orci vel pretium. Integer sit amet interdum velit.
+              Praesent bibendum dolor id sapien tristique, vitae finibus orci
+              vestibulum. Suspendisse mattis eu est eget congue. Maecenas
+              pulvinar sit amet sem sed convallis. Vestibulum scelerisque id mi
+              at pellentesque.
+            </Typography>
+          </Paper>
         </Box>
-        <Box className={classes.asideRight}></Box>
+        <Box className={classes.asideRight}>
+          <Box className={classes.status}>
+            {user && user.isMentor && (
+              <Box display="flex" alignItems="center" className={classes.stat}>
+                <SupervisorAccountIcon color="secondary" />
+                <Typography variant="subtitle1" color="textPrimary">
+                  Mentor
+                </Typography>
+              </Box>
+            )}
+
+            {user && user.isMentee && (
+              <Box display="flex" alignItems="center" className={classes.stat}>
+                <SupervisorAccountIcon color="secondary" />
+                <Typography variant="subtitle1" color="textPrimary">
+                  Mentee
+                </Typography>
+              </Box>
+            )}
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <BusinessIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Location
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user.location}
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <SupervisorAccountIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Industry Experience
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user && user.yearsOfExperience} Years
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <SchoolIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Education
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user.education.school}
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <WorkIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Graduated
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "short",
+                }).format(new Date(user.education.gradDate))}
+              </Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" className={classes.stat}>
+              <MenuBookIcon color="secondary" />
+              <Typography variant="subtitle1" color="textPrimary">
+                Major
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user.education.degreeType} in {user.education.major}
+              </Typography>
+            </Box>
+          </Box>
+          <br />
+          <Box className={classes.statusButton}>
+            <Button variant="contained" color="secondary" disableElevation>
+              Action 1
+            </Button>
+          </Box>
+          <Box className={classes.statusButton}>
+            <Button variant="outlined" color="secondary" disableElevation>
+              Action 2
+            </Button>
+          </Box>
+        </Box>
       </Container>
     </div>
   );
