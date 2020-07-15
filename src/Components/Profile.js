@@ -3,7 +3,13 @@ import { makeStyles } from "@material-ui/core";
 import { Paper, Button, Typography, Box, Container } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import Chip from "@material-ui/core/Chip";
-import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import SchoolIcon from "@material-ui/icons/School";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import WorkIcon from "@material-ui/icons/Work";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
+import ClassIcon from "@material-ui/icons/Class";
+import AssessmentIcon from "@material-ui/icons/Assessment";
+import BusinessIcon from "@material-ui/icons/Business";
 
 import { user as serverResponse } from "./stub";
 
@@ -181,7 +187,7 @@ export default function Profile() {
               size="medium"
               variant="contained"
               color="primary"
-              startIcon={<SupervisedUserCircleIcon />}
+              startIcon={<SupervisorAccountIcon />}
             >
               Request
             </Button>
@@ -223,7 +229,7 @@ export default function Profile() {
           <Box className={classes.status}>
             {user && user.isMentor && (
               <Box display="flex" alignItems="center" className={classes.stat}>
-                <SupervisedUserCircleIcon color="secondary" />
+                <SupervisorAccountIcon color="secondary" />
                 <Typography variant="subtitle1" color="textPrimary">
                   Mentor
                 </Typography>
@@ -232,7 +238,7 @@ export default function Profile() {
 
             {user && user.isMentee && (
               <Box display="flex" alignItems="center" className={classes.stat}>
-                <SupervisedUserCircleIcon color="secondary" />
+                <SupervisorAccountIcon color="secondary" />
                 <Typography variant="subtitle1" color="textPrimary">
                   Mentee
                 </Typography>
@@ -240,7 +246,7 @@ export default function Profile() {
             )}
 
             <Box display="flex" alignItems="center" className={classes.stat}>
-              <SupervisedUserCircleIcon color="secondary" />
+              <BusinessIcon color="secondary" />
               <Typography variant="subtitle1" color="textPrimary">
                 Location
               </Typography>
@@ -250,7 +256,7 @@ export default function Profile() {
             </Box>
 
             <Box display="flex" alignItems="center" className={classes.stat}>
-              <SupervisedUserCircleIcon color="secondary" />
+              <SupervisorAccountIcon color="secondary" />
               <Typography variant="subtitle1" color="textPrimary">
                 Industry Experience
               </Typography>
@@ -260,7 +266,7 @@ export default function Profile() {
             </Box>
 
             <Box display="flex" alignItems="center" className={classes.stat}>
-              <SupervisedUserCircleIcon color="secondary" />
+              <SchoolIcon color="secondary" />
               <Typography variant="subtitle1" color="textPrimary">
                 Education
               </Typography>
@@ -270,7 +276,7 @@ export default function Profile() {
             </Box>
 
             <Box display="flex" alignItems="center" className={classes.stat}>
-              <SupervisedUserCircleIcon color="secondary" />
+              <WorkIcon color="secondary" />
               <Typography variant="subtitle1" color="textPrimary">
                 Graduated
               </Typography>
@@ -282,7 +288,7 @@ export default function Profile() {
             </Box>
 
             <Box display="flex" alignItems="center" className={classes.stat}>
-              <SupervisedUserCircleIcon color="secondary" />
+              <MenuBookIcon color="secondary" />
               <Typography variant="subtitle1" color="textPrimary">
                 Major
               </Typography>
@@ -291,7 +297,7 @@ export default function Profile() {
               </Typography>
             </Box>
           </Box>
-
+          <br />
           <Box className={classes.statusButton}>
             <Button variant="contained" color="secondary" disableElevation>
               Action 1
