@@ -92,8 +92,27 @@ const useStyles = makeStyles((theme) => ({
       margin: "0px 8px 16px",
     },
   },
-
   buttonGroup: { minHeight: 72 },
+  review: {
+    margin: "32px 8px 42px",
+    "& > *": {},
+  },
+  reviewHeader: {
+    display: "flex",
+    marginBottom: 16,
+  },
+  reviewImage: {
+    marginRight: 8,
+    width: 36,
+    height: 36,
+    borderRadius: "100%",
+    background:
+      "url(https://api.adorable.io/avatars/36/abott2@adorable.png) grey",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  reviewBody: {},
 
   asideRight: {
     marginTop: 32,
@@ -198,9 +217,32 @@ export default function Profile({ uuid, match }) {
         <Box className={classes.content}>
           {/* <Paper className={classes.buttonGroup} variant="outlined"></Paper> */}
           <Paper variant="outlined">
-            <Typography variant="subtitle2" gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Reviews
             </Typography>
+            <Box className={classes.review}>
+              <Box
+                display="flex"
+                alignItems="flex-end"
+                className={classes.reviewHeader}
+              >
+                <Box className={classes.reviewImage}></Box>
+                <Typography variant="h6">Dale Ortega</Typography>
+              </Box>
+              <Box
+                display="flex"
+                alignItems="flex-end"
+                className={classes.reviewBody}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  ut nisi urna. Cras elementum tempus sem sed efficitur. Ut
+                  venenatis dui odio, sed euismod libero mattis at. Mauris
+                  dapibus dignissim odio, quis sollicitudin enim imperdiet
+                  euismod.
+                </Typography>
+              </Box>
+            </Box>
             <Box className={classes.review}>
               <Box className={classes.reviewHeader}>
                 <Box className={classes.reviewImage}></Box>
@@ -216,7 +258,7 @@ export default function Profile({ uuid, match }) {
                 </Typography>
               </Box>
             </Box>
-            <Typography variant="body1">
+            {/* <Typography variant="body1">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
               convallis pulvinar felis, id ultrices lorem dignissim vitae. Cras
               sit amet sapien purus. Sed auctor consequat dui, suscipit blandit
@@ -237,7 +279,7 @@ export default function Profile({ uuid, match }) {
               vestibulum. Suspendisse mattis eu est eget congue. Maecenas
               pulvinar sit amet sem sed convallis. Vestibulum scelerisque id mi
               at pellentesque.
-            </Typography>
+            </Typography> */}
           </Paper>
         </Box>
         <Box className={classes.asideRight}>
