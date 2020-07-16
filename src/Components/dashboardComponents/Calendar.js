@@ -199,7 +199,7 @@ function Calendar() {
 
   return (
     <Paper className={classes.calendar}>
-      <Scheduler data={scheduleData} height="auto">
+      <Scheduler data={scheduleData} height="660">
         <ViewState
           defaultCurrentDate={new Date()}
           defaultCurrentViewName="Month"
