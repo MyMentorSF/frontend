@@ -16,7 +16,7 @@ import SearchPage from "./components/searchPage";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#EDEDED",
-    height: "100vh",
+    minHeight: "100vh",
     width: "100vw",
   },
   mainDisplay: {

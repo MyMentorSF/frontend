@@ -141,27 +141,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const query = `
-  {
-    users(uuid: "a2isi4gs4t5ipaa39xunbd"){
-      uuid
+const queryAll = `
+{
+  users{
+    uuid
     username
-    interests
-    email
     firstName
     lastName
-    pronoun
-    yearsOfExperience
+    interests
     description
     role
     location
     department
-    education{
-      school
-      gradDate
-      degreeType
-      major
-    }
+  }
+}
+`;
+const query = `
+  {
+    users(uuid: "a2isi4gs4t5ipaa39xunbd"){
+      uuid
+      username
+      interests
+      email
+      firstName
+      lastName
+      pronoun
+      yearsOfExperience
+      description
+      role
+      location
+      department
+      education{
+        school
+        gradDate
+        degreeType
+        major
+      }
     }
   }
 `;
@@ -175,25 +190,7 @@ export default function Profile({ match }) {
   const classes = useStyles({ img: activeUser.profileImage });
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
-  const [random, setRandom] = useState();
-
-  // axios({
-  //   url: 'https://1jzxrj179.lp.gql.zone/graphql',
-  //   method: 'post',
-  //   data: {
-  //     query: `
-  //       query PostsForAuthor {
-  //         author(id: 1) {
-  //           firstName
-  //             posts {
-  //               title
-  //               votes
-  //             }
-  //           }
-  //         }
-  //       `
-  //   }
-  // })
+  const [userReviews, setUserReviews] = useState([]);
 
   useEffect(() => {
     async function getUserProfile() {
@@ -204,17 +201,19 @@ export default function Profile({ match }) {
           query: query,
         },
       });
-      console.log("response:", response);
       setUser(response.data.data.users[0]);
-      // let response = await fetch(
-      //   "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
-      // );
-
-      // response = await response.json();
-      // setUser(response.results[0].publicProfile);
-      // setUserPrivate(response.results[0].privateProfile);
     }
-
+    async function getReviews() {
+      const responseAll = await axios({
+        url: "http://localhost:4000/graphql",
+        method: "POST",
+        data: {
+          query: queryAll,
+        },
+      });
+      setUserReviews([...userReviews, responseAll.data.data.users]);
+      console.log("responseall:", responseAll.data.data.users);
+    }
     if (
       match.params.username !== undefined &&
       activeUser.username !== match.params.username
@@ -223,10 +222,12 @@ export default function Profile({ match }) {
       // getUserProfile();
       console.log("viewing someone elses");
       getUserProfile();
+      getReviews();
     } else {
       // Viewing someone elses profile
       console.log("personal");
       setUser(activeUser);
+      getReviews();
     }
   }, [match.params.uuid]);
 
@@ -237,16 +238,18 @@ export default function Profile({ match }) {
       <div className={classes.header}>
         <div className={classes.headerLeft}></div>
         <div className={classes.editProfile}>
-          <Box boxShadow={3}>
-            <Button
-              size="small"
-              variant="contained"
-              color="secondary"
-              startIcon={<EditIcon />}
-            >
-              Edit Profile
-            </Button>
-          </Box>
+          {user.username === activeUser.username && (
+            <Box boxShadow={3}>
+              <Button
+                size="small"
+                variant="contained"
+                color="secondary"
+                startIcon={<EditIcon />}
+              >
+                Edit Profile
+              </Button>
+            </Box>
+          )}
         </div>
       </div>
 
@@ -300,6 +303,32 @@ export default function Profile({ match }) {
             <Typography variant="h5" gutterBottom>
               Reviews
             </Typography>
+            {/* {userReviews && userReviews.map((rev) => <div>test</div>)}
+            {userReviews &&
+              userReviews.map((rvw) => (
+                <Box className={classes.review} key={rvw.username}>
+                  <Box
+                    display="flex"
+                    alignItems="flex-end"
+                    className={classes.reviewHeader}
+                  >
+                    <Box className={classes.reviewImage}></Box>
+                    <Typography variant="h6">
+                      {console.log("fname", rvw)} {rvw.lastName}
+                    </Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    alignItems="flex-end"
+                    className={classes.reviewBody}
+                  >
+                    <Typography variant="body2" color="textSecondary">
+                      {rvw && rvw.description}
+                    </Typography>
+                  </Box>
+                </Box>
+              ))} */}
+
             <Box className={classes.review}>
               <Box
                 display="flex"
@@ -307,7 +336,7 @@ export default function Profile({ match }) {
                 className={classes.reviewHeader}
               >
                 <Box className={classes.reviewImage}></Box>
-                <Typography variant="h6">Dale Ortega</Typography>
+                <Typography variant="h6">Oswald Prosacco</Typography>
               </Box>
               <Box
                 display="flex"

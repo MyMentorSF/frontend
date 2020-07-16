@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useContext, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Avatar, Typography, Chip, Divider } from "@material-ui/core";
 import ReactShadowScroll from "react-shadow-scroll";
-
+import { authContext } from "../../App";
 const useStyles = makeStyles((theme) => ({
   card: {
     padding: theme.spacing(2),
@@ -52,19 +52,22 @@ const interests = [
 
 function ProfileCard() {
   const classes = useStyles();
+  const { activeUser } = useContext(authContext);
+
   return (
     <div>
       <Card className={classes.card} elevation={4}>
         <Avatar
-          src={`https://api.adorable.io/avatars/285/234`}
+          src={activeUser.profileImage}
           className={classes.avatar}
           alt="profile picture"
         />
         <Typography variant="h6" style={{ color: "#1A1A1A" }}>
-          Jezreel Aquitania
+          {`${activeUser.firstName} ${activeUser.lastName}`}
         </Typography>
         <Typography variant="subtitle1" style={{ color: "#1A1A1A" }}>
-          Software Developer at Labs-PCAS Team Usual Suspects
+          {activeUser.role} at {activeUser.department} - {activeUser.location}
+          {/* Software Developer at Labs-PCAS Team Usual Suspects */}
         </Typography>
 
         <div style={{ marginTop: 20 }}>
@@ -74,7 +77,7 @@ function ProfileCard() {
         <Divider variation="inset" />
         <div className={classes.interestBox}>
           <ReactShadowScroll shadow="0">
-            {interests.map((interest) => {
+            {activeUser.interests.map((interest) => {
               return (
                 <Chip
                   clickable
