@@ -120,7 +120,16 @@ export default function SearchBar({ props }) {
               </>
             )}
           />
-          {(selectedMentor) ? <Button variant="outlined" color="primary">View Profile</Button> : null}
+          {(selectedMentor) ?
+            <NavLink to={`/profile/${selectedMentor.username}`} className={classes.navItem}>
+              <Button
+                variant="outlined"
+                color="primary"
+              >
+                View Profile
+              </Button>
+            </NavLink>
+            : null}
         </div>
         <br />
         <Typography variant="caption" component="p">Start typing an interest</Typography>
