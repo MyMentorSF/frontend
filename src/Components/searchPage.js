@@ -9,6 +9,8 @@ import dataArray from "../frontend.json"
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
+    marginTop: "1.5em",
+    marginBottom: "3em",
     padding: "3em",
     position: "relative",
   },
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleMid: {
     marginTop: "1em",
-    marginBottom: "1.5em"
+    marginBottom: "3em"
   },
   media: {
     // paddingTop: "56.25%",
@@ -30,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     color: "inherit",
     textDecoration: "none",
   },
+  recommend: {
+    padding: "3em",
+
+  }
 }))
 
 export default function SearchBar({ props }) {
@@ -71,7 +77,6 @@ export default function SearchBar({ props }) {
     <>
       <Paper elevation={3} className={classes.searchBar}>
         <Typography variant="h2" className={classes.titleTop}>Search Mentor</Typography>
-
         <Autocomplete
           id="searchMentor"
           autoHighlight
@@ -85,7 +90,6 @@ export default function SearchBar({ props }) {
           style={{ fontSize: 15 }}
           renderInput={(params) => (
             <>
-              
               <TextField
                 {...params}
                 InputProps={{
@@ -100,16 +104,16 @@ export default function SearchBar({ props }) {
                   }
                 }}
               />
-              
             </>
           )}
         />
+        <Typography variant="caption">Start typing an interest</Typography>
       </Paper>
 
-      <Paper elevation={3} >
+      <Paper elevation={3} className={classes.recommend}>
         <div className={classes.titleMid}>
-          <Typography gutterBottom variant="h4">Recommended</Typography>
-          <Typography variant="body2">Based on your profile</Typography>
+          <Typography variant="h4">Mentor Recommendations</Typography>
+          <Typography variant="body1">Based on your profile</Typography>
         </div>
         <GridList cols={3} spacing={30}>
           {user.results[0].privateProfile.mentees.map((mentee, index) => (
@@ -141,6 +145,7 @@ export default function SearchBar({ props }) {
                     <Button
                       size="small"
                       color="primary"
+                      variant="outlined"
                     >View Profile</Button>
                   </NavLink>
                 </CardActions>
