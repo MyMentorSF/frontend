@@ -31,6 +31,7 @@ const currentUser = {
 
 function App() {
   const classes = useStyles();
+
   return (
     <authContext.Provider value={currentUser}>
       <div className={classes.root}>

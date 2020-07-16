@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: 2,
-    color: "black",
-    backgroundColor: "#E6E6FA",
+    color: "#f01716",
+    backgroundColor: "#fafafa",
   },
   chipContainer: {
     width: "100%",

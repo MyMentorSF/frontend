@@ -30,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: 2,
+    color: "#f01716",
+    backgroundColor: "#fafafa",
   },
 }));
 
@@ -54,7 +56,7 @@ function ProfileCard() {
     <div>
       <Card className={classes.card} elevation={4}>
         <Avatar
-          src={"https://api.adorable.io/avatars/285/5"}
+          src={`https://api.adorable.io/avatars/285/234`}
           className={classes.avatar}
           alt="profile picture"
         />
@@ -78,7 +80,7 @@ function ProfileCard() {
                   clickable
                   className={classes.chip}
                   label={interest}
-                  color="primary"
+                  variant="outlined"
                 />
               );
             })}
