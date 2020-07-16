@@ -71,10 +71,10 @@ export default function SearchBar({ props }) {
     }
   }, [open])
     
-  const handleOnChange = ({event, value}) => {
+  const handleOnChange = (event, value) => {
     if (value) setSelectedMentor(value)
     else setSelectedMentor("")
-    console.log(selectedMentor, event)
+    console.log(value, event)
   }
 
   var style = {
@@ -89,16 +89,17 @@ export default function SearchBar({ props }) {
         <Typography variant="h2" className={classes.titleTop}>Search Mentor</Typography>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Autocomplete
-            id="searchMentor"
+            id="searchMentorForm"
             autoHighlight
+            value={selectedMentor ?? ""}
             open={open}
-            options={options}
+            options={options.map((option) => `${option.firstName} ${option.lastName}`)}
             loading={loading}
-            onInputChange={(event, value) => setSelectedMentor(true)}
+            onChange={(event, value) => handleOnChange(event, value)}
             onOpen={() => setOpen(true)}
             onClose={() => setOpen(false)}
             noOptionsText={"Enter for options"}
-            getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+            // getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
             style={{ fontSize: 15, ...style }}
             renderInput={(params) => (
               <>
@@ -120,7 +121,16 @@ export default function SearchBar({ props }) {
               </>
             )}
           />
-          {(selectedMentor) ? <Button variant="outlined" color="primary">View Profile</Button> : null}
+          {(selectedMentor) ?
+            <NavLink to={`/profile/${selectedMentor.username}`} className={classes.navItem}>
+              <Button
+                variant="outlined"
+                color="primary"
+              >
+                View Profile
+              </Button>
+            </NavLink>
+            : null}
         </div>
         <br />
         <Typography variant="caption" component="p">Start typing an interest</Typography>
@@ -132,42 +142,47 @@ export default function SearchBar({ props }) {
           <Typography variant="body1">Based on your profile</Typography>
         </div>
         <GridList cols={3} spacing={30}>
-          {user.results[0].privateProfile.mentees.map((mentee, index) => (
-            <GridListTile key={index} style={{
-              height: "100%",
-              width: "30%"
-            }}>
-              <Card>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    component="img"
-                    image={`https://api.adorable.io/avatars/285/${mentee.username}.png`}
-                    // image={"https://source.unsplash.com/random"}
-                    title={`${mentee.firstName} ${mentee.lastName}`}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {`${mentee.firstName} ${mentee.lastName}`}
-                    </Typography>
-                    <Typography variant="overline">{`${mentee.role}`}</Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      {`${mentee.description}`}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <NavLink className={classes.navItem} to={`/profile/${mentee.username}`}>
-                    <Button
-                      size="small"
-                      color="primary"
-                      variant="outlined"
-                    >View Profile</Button>
-                  </NavLink>
-                </CardActions>
-              </Card>
-            </GridListTile>
-          ))}      
+          {options.map((mentor, index) => {
+            if (index < 6) {
+              return (
+                <GridListTile key={index} style={{
+                  height: "100%",
+                  width: "30%"
+                }}>
+                  <Card>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        component="img"
+                        image={`https://api.adorable.io/avatars/285/${mentor.username}.png`}
+                        // image={"https://source.unsplash.com/random"}
+                        title={`${mentor.firstName} ${mentor.lastName}`}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {`${mentor.firstName} ${mentor.lastName}`}
+                        </Typography>
+                        <Typography variant="overline">{`${mentor.role}`}</Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                          {`${mentor.description}`}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                      <NavLink className={classes.navItem} to={`/profile/${mentor.username}`}>
+                        <Button
+                          size="small"
+                          color="primary"
+                          variant="outlined"
+                        >View Profile</Button>
+                      </NavLink>
+                    </CardActions>
+                  </Card>
+                </GridListTile>
+              )
+            }
+            return null
+          })}      
         </GridList>
       </Paper>
     </>    

@@ -15,8 +15,6 @@ import SearchPage from "./components/searchPage";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#EDEDED",
-    minHeight: "100vh",
-    width: "100vw",
   },
   mainDisplay: {
     margin: "0px 150px 0px 150px",
@@ -26,6 +24,7 @@ const currentUser = {
   uuid: "12512512",
   username: "Maryjane Dicki",
   profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
+  
 };
 
 const activeUserData = {
@@ -82,8 +81,8 @@ const authContext = createContext();
 
 function App() {
   const classes = useStyles();
-  const [activeUser, setActiveUser] = useState(activeUserData);
   var location = useLocation().pathname
+  const [activeUser, setActiveUser] = useState(activeUserData);
 
   return (
     <authContext.Provider value={{ activeUser, setActiveUser }}>
@@ -100,10 +99,9 @@ function App() {
             <Route exact path="/search" component={SearchPage} />
           </Switch>
         </div>
-        {/* <Route exact path="/" component={Homepage}>
-          <Redirect to="/homepage" />
-        </Route> */}
       </div>
+      <Route exact path="/" component={Homepage} />
+
     </authContext.Provider>
   );
 }

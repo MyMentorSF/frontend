@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, List, ListItem, ListItemAvatar, ListItemText, Popover } from "@material-ui/core";
 import {
   Toolbar,
   IconButton,
@@ -52,7 +52,14 @@ const useStyles = makeStyles((theme) => ({
 
 function ApplicationBar() {
   const { activeUser, setActiveUser } = useContext(authContext);
+  const [open, setOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState()
+
   const classes = useStyles();
+
+  const handleNotifClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  }
 
   return (
     <AppBar className={classes.appBar} position="static">
@@ -74,11 +81,29 @@ function ApplicationBar() {
               <MailIcon />
             </Badge>
           </IconButton>
-          <IconButton aria-label="show new notifications" color="inherit">
-            <Badge badgeContent={0} color="secondary">
+          <IconButton aria-label="show new notifications" color="inherit" onClick={handleNotifClick}>
+            <Badge badgeContent={5} color="primary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Popover
+            id="notifications"
+            open={open}
+            anchorEl={anchorEl}
+            onClose={() => setAnchorEl(null)}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            {}
+          </Popover>
+            
+
           <NavLink to="/search" className={classes.navItem}>
             <IconButton aria-label="search mentors" color="inherit">
               <SearchIcon />
