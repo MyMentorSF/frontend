@@ -10,8 +10,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     width: "50em",
     maxWidth: "50em",
-    maxHeight: "25em",
-    height: "25em",
     background: "linear-gradient(180deg, #231F38 23%, #FAFAFA 23%)",
   },
   avatar: {
@@ -25,9 +23,10 @@ const useStyles = makeStyles((theme) => ({
   interestBox: {
     color: "#1A1A1A",
     marginTop: 20,
+    height: "100%",
   },
   chip: {
-    margin: 12,
+    margin: 2,
   },
 }));
 
@@ -37,6 +36,14 @@ const interests = [
   "Telematics",
   "GraphQL",
   "InfoSec",
+  "Angular",
+  "Prometheus",
+  "Grafana",
+  "Angular",
+  "Prometheus",
+  "Grafana",
+  "Angular",
+  "Prometheus",
 ];
 
 function ProfileCard() {
@@ -55,12 +62,21 @@ function ProfileCard() {
         <Typography variant="subtitle1" style={{ color: "#1A1A1A" }}>
           Software Developer at Labs-PCAS Team Usual Suspects
         </Typography>
-        <div className={classes.interestBox}>
+
+        <div style={{ marginTop: 20 }}>
           <Typography variant="overline">Interests:</Typography>
-          <Divider variation="inset" />
+        </div>
+
+        <Divider variation="inset" />
+        <div className={classes.interestBox}>
           {interests.map((interest) => {
             return (
-              <Chip className={classes.chip} label={interest} color="primary" />
+              <Chip
+                clickable
+                className={classes.chip}
+                label={interest}
+                color="primary"
+              />
             );
           })}
         </div>
