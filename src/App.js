@@ -88,13 +88,13 @@ function App() {
   return (
     <authContext.Provider value={{ activeUser, setActiveUser }}>
       <div className={classes.root}>
-        {(location !== "/" && location !== "/homepage") ? 
-          <ApplicationBar /> : null}
+        <ApplicationBar />
         <CssBaseline />
 
         <div className={classes.mainDisplay}>
           <Switch>
             <Route exact path="/" component={Dashboard} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/profile/:username" component={Profile} />
             <Route exact path="/search" component={SearchPage} />
