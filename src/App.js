@@ -24,7 +24,6 @@ const currentUser = {
   uuid: "12512512",
   username: "Maryjane Dicki",
   profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
-  
 };
 
 const activeUserData = {
@@ -81,7 +80,7 @@ const authContext = createContext();
 
 function App() {
   const classes = useStyles();
-  var location = useLocation().pathname
+  var location = useLocation().pathname;
   const [activeUser, setActiveUser] = useState(activeUserData);
 
   return (
@@ -100,8 +99,6 @@ function App() {
           </Switch>
         </div>
       </div>
-      <Route exact path="/" component={Homepage} />
-
     </authContext.Provider>
   );
 }
