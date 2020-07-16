@@ -143,17 +143,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile({ uuid, match }) {
+export default function Profile({ match }) {
   const classes = useStyles();
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
+  const [random, setRandom] = useState();
 
   useEffect(() => {
-    const uuid = match.params.uuid;
-    console.log("current UUID", uuid);
+    async function getUserProfile() {
+      let response = await fetch(
+        "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
+      );
 
-    setUser(serverResponse.results[0].publicProfile);
-    setUserPrivate(serverResponse.results[0].privateProfile);
+      response = await response.json();
+      console.log("res", response.results[0]);
+      setUser(response.results[0].publicProfile);
+      setUserPrivate(response.results[0].privateProfile);
+    }
+
+    if (true) {
+      // Viewing logged in user profile
+      getUserProfile();
+    } else {
+      // Viewing someone elses profile
+      getUserProfile();
+    }
   }, [match.params.uuid]);
 
   if (!user) return <>Loading</>;
