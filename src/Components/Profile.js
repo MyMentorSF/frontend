@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core";
 import { Paper, Button, Typography, Box, Container } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
@@ -11,6 +11,7 @@ import ClassIcon from "@material-ui/icons/Class";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import BusinessIcon from "@material-ui/icons/Business";
 
+import authContext from "../authContext";
 import { user as serverResponse } from "./stub";
 
 const mainColor = "#EDEDED";
@@ -59,9 +60,8 @@ const useStyles = makeStyles((theme) => ({
     flex: 3,
     position: "relative",
   },
-  profilePic: {
-    background:
-      "url(https://api.adorable.io/avatars/285/abott@adorable.png) grey",
+  profilePic: (props) => ({
+    background: `url(${props.img}) grey`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -71,9 +71,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "100%",
     position: "absolute",
     top: -64 - 16,
-
-    // left: "calc(128px / 2)",
-  },
+  }),
   chipContainer: {
     textAlign: "left",
     // border: "solid blue 1px",
@@ -144,19 +142,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Profile({ match }) {
-  const classes = useStyles();
+  const authUser = useContext(authContext);
+  const classes = useStyles({ img: authUser.profileImage });
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
   const [random, setRandom] = useState();
 
   useEffect(() => {
     async function getUserProfile() {
+      console.log("auth", authUser);
       let response = await fetch(
         "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
       );
 
       response = await response.json();
-      console.log("res", response.results[0]);
       setUser(response.results[0].publicProfile);
       setUserPrivate(response.results[0].privateProfile);
     }
@@ -192,7 +191,11 @@ export default function Profile({ match }) {
 
       <Container className={classes.body}>
         <Box className={classes.asideLeft}>
-          <Box boxShadow={3} className={classes.profilePic}></Box>
+          <Box
+            boxShadow={3}
+            // style={{ background: `url(${authUser.profileImage}) grey` }}
+            className={classes.profilePic}
+          ></Box>
           <Typography variant="h6">
             {user && user.firstName} {user && user.lastName}
           </Typography>
