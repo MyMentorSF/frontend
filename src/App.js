@@ -15,8 +15,7 @@ import SearchPage from "./components/searchPage";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#EDEDED",
-    height: "100vh",
-    width: "100vw",
+
   },
   mainDisplay: {
     margin: "0px 150px 0px 150px",
@@ -37,7 +36,7 @@ function App() {
           </Route>
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/profile/" component={Profile} />
-          <Route exact path="/profile/:uuid" component={Profile} />
+          <Route exact path="/profile/:username" component={Profile} />
           <Route exact path="/search" component={SearchPage} />
         </Switch>
       </div>

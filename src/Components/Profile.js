@@ -124,18 +124,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile({ uuid, match }) {
+export default function Profile({ username, match }) {
   const classes = useStyles();
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
 
   useEffect(() => {
-    const uuid = match.params.uuid;
-    console.log("current UUID", uuid);
+    const username = match.params.username;
+    console.log("current USERNAME", username);
 
     setUser(serverResponse.results[0].publicProfile);
     setUserPrivate(serverResponse.results[0].privateProfile);
-  }, [match.params.uuid]);
+  }, [match.params.username]);
 
   if (!user) return <>Loading</>;
 
