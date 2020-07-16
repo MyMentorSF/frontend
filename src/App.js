@@ -3,6 +3,7 @@ import "./App.css";
 import React from "react";
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import ApplicationBar from "./components/ApplicationBar";
+import authContext from "./authContext";
 
 // Pages
 import Dashboard from "./components/Dashboard";
@@ -22,26 +23,33 @@ const useStyles = makeStyles((theme) => ({
     margin: "0px 150px 0px 150px",
   },
 }));
+const currentUser = {
+  uuid: "12512512",
+  username: "Maryjane Dicki",
+  profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
+};
 
 function App() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <ApplicationBar />
-      <CssBaseline />
-      <div className={classes.mainDisplay}>
-        <Switch>
-          <Route exact path="/" component={Homepage}>
-            {/* TODO AppBar different for logged in and homepage */}
-            <Redirect to="/homepage" />
-          </Route>
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/profile/" component={Profile} />
-          <Route exact path="/profile/:username" component={Profile} />
-          <Route exact path="/search" component={SearchPage} />
-        </Switch>
+    <authContext.Provider value={currentUser}>
+      <div className={classes.root}>
+        <ApplicationBar />
+        <CssBaseline />
+        <div className={classes.mainDisplay}>
+          <Switch>
+            <Route exact path="/" component={Homepage}>
+              {/* TODO AppBar different for logged in and homepage */}
+              <Redirect to="/homepage" />
+            </Route>
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/profile/" component={Profile} />
+            <Route exact path="/profile/:username" component={Profile} />
+            <Route exact path="/search" component={SearchPage} />
+          </Switch>
+        </div>
       </div>
-    </div>
+    </authContext.Provider>
   );
 }
 
