@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "50em",
     maxHeight: "25em",
     height: "25em",
-    background: "linear-gradient(180deg, #E6924B 23%, #FAFAFA 23%)",
+    background: "linear-gradient(180deg, #DEBC85 23%, #FAFAFA 23%)",
   },
   list: {
     width: "100%",
@@ -62,7 +62,7 @@ const interests = [
 function MentorsDB() {
   const classes = useStyles();
   return (
-    <Paper className={classes.card}>
+    <Paper className={classes.card} elevation={4}>
       <Typography className={classes.title} variant="h5" color="inherit">
         Mentors:
       </Typography>

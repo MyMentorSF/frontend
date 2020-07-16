@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Avatar, Typography, Chip, Divider } from "@material-ui/core";
 import ReactShadowScroll from "react-shadow-scroll";
-import profilePic from "../imgs/profile_pic.jpg";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -11,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     width: "50em",
     maxWidth: "50em",
     height: "25em",
-    background: "linear-gradient(180deg, #598CE3 23%, #FAFAFA 23%)",
+    background: "linear-gradient(180deg, #B39462 23%, #FAFAFA 23%)",
   },
   avatar: {
     height: 100,
@@ -55,7 +54,7 @@ function ProfileCard() {
     <div>
       <Card className={classes.card} elevation={4}>
         <Avatar
-          src={profilePic}
+          src={"https://api.adorable.io/avatars/285/5"}
           className={classes.avatar}
           alt="profile picture"
         />

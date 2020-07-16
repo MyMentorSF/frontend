@@ -198,7 +198,7 @@ function Calendar() {
   }
 
   return (
-    <Paper className={classes.calendar}>
+    <Paper className={classes.calendar} elevation={4}>
       <Scheduler data={scheduleData} height="660">
         <ViewState
           defaultCurrentDate={new Date()}
