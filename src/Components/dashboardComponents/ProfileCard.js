@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Avatar, Typography, Chip, Divider } from "@material-ui/core";
-
+import ReactShadowScroll from "react-shadow-scroll";
 import profilePic from "../imgs/profile_pic.jpg";
 
 const useStyles = makeStyles((theme) => ({
@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     width: "50em",
     maxWidth: "50em",
-    background: "linear-gradient(180deg, #231F38 23%, #FAFAFA 23%)",
+    height: "25em",
+    background: "linear-gradient(180deg, #598CE3 23%, #FAFAFA 23%)",
   },
   avatar: {
     height: 100,
@@ -22,8 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
   interestBox: {
     color: "#1A1A1A",
-    marginTop: 20,
-    height: "100%",
+    marginTop: 2,
+    maxHeight: "80px",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   chip: {
     margin: 2,
@@ -42,8 +46,7 @@ const interests = [
   "Angular",
   "Prometheus",
   "Grafana",
-  "Angular",
-  "Prometheus",
+  "Telematics",
 ];
 
 function ProfileCard() {
@@ -69,16 +72,18 @@ function ProfileCard() {
 
         <Divider variation="inset" />
         <div className={classes.interestBox}>
-          {interests.map((interest) => {
-            return (
-              <Chip
-                clickable
-                className={classes.chip}
-                label={interest}
-                color="primary"
-              />
-            );
-          })}
+          <ReactShadowScroll shadow="0">
+            {interests.map((interest) => {
+              return (
+                <Chip
+                  clickable
+                  className={classes.chip}
+                  label={interest}
+                  color="primary"
+                />
+              );
+            })}
+          </ReactShadowScroll>
         </div>
       </Card>
     </div>
