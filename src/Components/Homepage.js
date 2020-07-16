@@ -1,38 +1,37 @@
 import React from "react";
-import Background from "../img/background.jpg";
+import { Typography, makeStyles, Button } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
 
-// const useStyles = makeStyles((theme) => ({
-//   appBar: {
-//     flexGrow: 1,
-//     background: "primary",
-//   },
-//   sectionOfIcons: {
-//     marginLeft: "auto",
-//     display: "none",
-//     [theme.breakpoints.up("md")]: {
-//       display: "flex",
-//     },
-//   },
-//   bgImage: {
-//     backgroundColor: "#000000",
-//     backgroundImage: `url(${Background})`,
-//     backgroundPosition: "center",
-//     backgroundSize: "cover",
-//     backgroundRepeat: "no-repeat",
-//   },
-//   root: {
-//     zIndex: 100
-//   }
-// }));
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    flexGrow: 1,
+    background: "primary",
+  },
+  navItem: {
+    color: "inherit",
+    textDecoration: "none",
+  },
+  bgImage: {
+  },
+  root: {
+    zIndex: 100,
+    backgroundColor: `${radial-gradient(#1a786a, 2de3c8)}`,
+    height: "100vh"
+
+  }
+}));
 
 
 export default function Homepage () {
-  // const classes = useStyles();
+  const classes = useStyles();
 
   return (
     <>
-      <div>
-        Hello World
+      <div className={classes.root}>
+        <Typography variant="h1">MyMentor</Typography>
+        <NavLink to="/dashboard" className={classes.navItem}>
+          <Button variant="outlined">Sign Up/Login</Button>
+        </NavLink>
       </div>
     </>
   );

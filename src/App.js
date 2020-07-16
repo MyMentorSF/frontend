@@ -24,6 +24,7 @@ const currentUser = {
   uuid: "12512512",
   username: "Maryjane Dicki",
   profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
+  
 };
 
 const activeUserData = {
@@ -92,16 +93,16 @@ function App() {
 
         <div className={classes.mainDisplay}>
           <Switch>
+            {/* <Route exact path="/" component={Homepage} /> */}
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/profile/:username" component={Profile} />
             <Route exact path="/search" component={SearchPage} />
           </Switch>
         </div>
-        {/* <Route exact path="/" component={Homepage}>
-          <Redirect to="/homepage" />
-        </Route> */}
       </div>
+      <Route exact path="/" component={Homepage} />
+
     </authContext.Provider>
   );
 }
