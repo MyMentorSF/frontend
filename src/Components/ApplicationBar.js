@@ -23,6 +23,7 @@ import { NavLink } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     flexGrow: 1,
+    backgroundColor: "#f01716",
   },
   title: {
     fontFamily: "Roboto",
@@ -51,7 +52,7 @@ function ApplicationBar() {
   const classes = useStyles();
   return (
     <AppBar className={classes.appBar} position="static">
-      <Toolbar color="primary">
+      <Toolbar color="inherit">
         <NavLink to="/homepage" className={classes.navItem}>
           <ButtonBase focusRipple aria-label="go to dashboard" color="inherit">
             <img className={classes.avatar} src={logo} alt="Logo" />

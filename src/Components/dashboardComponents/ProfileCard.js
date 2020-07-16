@@ -1,8 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Avatar, Typography, Chip, Divider } from "@material-ui/core";
-
-import profilePic from "../imgs/profile_pic.jpg";
+import ReactShadowScroll from "react-shadow-scroll";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -10,9 +9,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     width: "50em",
     maxWidth: "50em",
-    maxHeight: "25em",
     height: "25em",
-    background: "linear-gradient(180deg, #231F38 23%, #FAFAFA 23%)",
+    background: "linear-gradient(180deg, #B39462 23%, #FAFAFA 23%)",
   },
   avatar: {
     height: 100,
@@ -24,10 +22,16 @@ const useStyles = makeStyles((theme) => ({
   },
   interestBox: {
     color: "#1A1A1A",
-    marginTop: 20,
+    marginTop: 2,
+    maxHeight: "80px",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   chip: {
-    margin: 12,
+    margin: 2,
+    color: "#f01716",
+    backgroundColor: "#fafafa",
   },
 }));
 
@@ -37,6 +41,13 @@ const interests = [
   "Telematics",
   "GraphQL",
   "InfoSec",
+  "Angular",
+  "Prometheus",
+  "Grafana",
+  "Angular",
+  "Prometheus",
+  "Grafana",
+  "Telematics",
 ];
 
 function ProfileCard() {
@@ -45,7 +56,7 @@ function ProfileCard() {
     <div>
       <Card className={classes.card} elevation={4}>
         <Avatar
-          src={profilePic}
+          src={`https://api.adorable.io/avatars/285/234`}
           className={classes.avatar}
           alt="profile picture"
         />
@@ -55,14 +66,25 @@ function ProfileCard() {
         <Typography variant="subtitle1" style={{ color: "#1A1A1A" }}>
           Software Developer at Labs-PCAS Team Usual Suspects
         </Typography>
-        <div className={classes.interestBox}>
+
+        <div style={{ marginTop: 20 }}>
           <Typography variant="overline">Interests:</Typography>
-          <Divider variation="inset" />
-          {interests.map((interest) => {
-            return (
-              <Chip className={classes.chip} label={interest} color="primary" />
-            );
-          })}
+        </div>
+
+        <Divider variation="inset" />
+        <div className={classes.interestBox}>
+          <ReactShadowScroll shadow="0">
+            {interests.map((interest) => {
+              return (
+                <Chip
+                  clickable
+                  className={classes.chip}
+                  label={interest}
+                  variant="outlined"
+                />
+              );
+            })}
+          </ReactShadowScroll>
         </div>
       </Card>
     </div>

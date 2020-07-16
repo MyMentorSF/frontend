@@ -92,8 +92,27 @@ const useStyles = makeStyles((theme) => ({
       margin: "0px 8px 16px",
     },
   },
-
   buttonGroup: { minHeight: 72 },
+  review: {
+    margin: "32px 8px 42px",
+    "& > *": {},
+  },
+  reviewHeader: {
+    display: "flex",
+    marginBottom: 16,
+  },
+  reviewImage: {
+    marginRight: 8,
+    width: 36,
+    height: 36,
+    borderRadius: "100%",
+    background:
+      "url(https://api.adorable.io/avatars/36/abott2@adorable.png) grey",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  reviewBody: {},
 
   asideRight: {
     marginTop: 32,
@@ -124,18 +143,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile({ username, match }) {
+export default function Profile({ match }) {
   const classes = useStyles();
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
+  const [random, setRandom] = useState();
 
   useEffect(() => {
-    const username = match.params.username;
-    console.log("current USERNAME", username);
+    async function getUserProfile() {
+      let response = await fetch(
+        "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
+      );
 
-    setUser(serverResponse.results[0].publicProfile);
-    setUserPrivate(serverResponse.results[0].privateProfile);
-  }, [match.params.username]);
+      response = await response.json();
+      console.log("res", response.results[0]);
+      setUser(response.results[0].publicProfile);
+      setUserPrivate(response.results[0].privateProfile);
+    }
+
+    if (true) {
+      // Viewing logged in user profile
+      getUserProfile();
+    } else {
+      // Viewing someone elses profile
+      getUserProfile();
+    }
+  }, [match.params.uuid]);
 
   if (!user) return <>Loading</>;
 
@@ -198,9 +231,32 @@ export default function Profile({ username, match }) {
         <Box className={classes.content}>
           {/* <Paper className={classes.buttonGroup} variant="outlined"></Paper> */}
           <Paper variant="outlined">
-            <Typography variant="subtitle2" gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Reviews
             </Typography>
+            <Box className={classes.review}>
+              <Box
+                display="flex"
+                alignItems="flex-end"
+                className={classes.reviewHeader}
+              >
+                <Box className={classes.reviewImage}></Box>
+                <Typography variant="h6">Dale Ortega</Typography>
+              </Box>
+              <Box
+                display="flex"
+                alignItems="flex-end"
+                className={classes.reviewBody}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  ut nisi urna. Cras elementum tempus sem sed efficitur. Ut
+                  venenatis dui odio, sed euismod libero mattis at. Mauris
+                  dapibus dignissim odio, quis sollicitudin enim imperdiet
+                  euismod.
+                </Typography>
+              </Box>
+            </Box>
             <Box className={classes.review}>
               <Box className={classes.reviewHeader}>
                 <Box className={classes.reviewImage}></Box>
@@ -216,7 +272,7 @@ export default function Profile({ username, match }) {
                 </Typography>
               </Box>
             </Box>
-            <Typography variant="body1">
+            {/* <Typography variant="body1">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
               convallis pulvinar felis, id ultrices lorem dignissim vitae. Cras
               sit amet sapien purus. Sed auctor consequat dui, suscipit blandit
@@ -237,7 +293,7 @@ export default function Profile({ username, match }) {
               vestibulum. Suspendisse mattis eu est eget congue. Maecenas
               pulvinar sit amet sem sed convallis. Vestibulum scelerisque id mi
               at pellentesque.
-            </Typography>
+            </Typography> */}
           </Paper>
         </Box>
         <Box className={classes.asideRight}>
