@@ -23,7 +23,7 @@ import { NavLink } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     flexGrow: 1,
-    backgroundColor: "#f01716",
+    backgroundColor: "#78CAFF",
   },
   title: {
     fontFamily: "Roboto",

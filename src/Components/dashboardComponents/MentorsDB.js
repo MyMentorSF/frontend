@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "50em",
     maxHeight: "25em",
     height: "25em",
-    background: "linear-gradient(180deg, #DEBC85 23%, #FAFAFA 23%)",
+    background: "linear-gradient(180deg, #42331D 23%, #FAFAFA 23%)",
   },
   list: {
     width: "100%",
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: 2,
-    color: "#f01716",
+    color: "#42331D",
     backgroundColor: "#fafafa",
   },
   chipContainer: {
