@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import {
   Toolbar,
@@ -9,7 +9,7 @@ import {
   Avatar,
 } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
-import authContext from "../authContext";
+import { authContext } from "../App";
 import logo from "./imgs/profile_pic.jpg";
 
 // Icons
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ApplicationBar() {
-  const authUser = useContext(authContext);
+  const { activeUser, setActiveUser } = useContext(authContext);
   const classes = useStyles();
 
   return (
@@ -60,7 +60,7 @@ function ApplicationBar() {
           <ButtonBase focusRipple aria-label="go to dashboard" color="inherit">
             <img
               className={classes.avatar}
-              src={authUser.profileImage}
+              src={activeUser.profileImage}
               alt="Logo"
             />
             <Typography className={classes.title}>MY MENTOR</Typography>

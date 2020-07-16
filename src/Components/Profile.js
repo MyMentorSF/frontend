@@ -11,7 +11,7 @@ import ClassIcon from "@material-ui/icons/Class";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import BusinessIcon from "@material-ui/icons/Business";
 
-import authContext from "../authContext";
+import { authContext } from "../App";
 import { user as serverResponse } from "./stub";
 
 const mainColor = "#EDEDED";
@@ -142,15 +142,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Profile({ match }) {
-  const authUser = useContext(authContext);
-  const classes = useStyles({ img: authUser.profileImage });
+  // const {
+  //   activeUser: [activeUser, setActiveUser],
+  // } = useContext(authContext);
+  const { activeUser, setActiveUser } = useContext(authContext);
+
+  const classes = useStyles({ img: activeUser.profileImage });
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
   const [random, setRandom] = useState();
 
   useEffect(() => {
     async function getUserProfile() {
-      console.log("auth", authUser);
+      console.log("auth", activeUser);
       let response = await fetch(
         "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
       );
@@ -160,9 +164,10 @@ export default function Profile({ match }) {
       setUserPrivate(response.results[0].privateProfile);
     }
 
-    if (true) {
+    if (activeUser) {
       // Viewing logged in user profile
-      getUserProfile();
+      // getUserProfile();
+      setUser(activeUser);
     } else {
       // Viewing someone elses profile
       getUserProfile();
@@ -193,7 +198,7 @@ export default function Profile({ match }) {
         <Box className={classes.asideLeft}>
           <Box
             boxShadow={3}
-            // style={{ background: `url(${authUser.profileImage}) grey` }}
+            // style={{ background: `url(${activeUser.profileImage}) grey` }}
             className={classes.profilePic}
           ></Box>
           <Typography variant="h6">

@@ -1,9 +1,9 @@
 import "fontsource-roboto";
 import "./App.css";
-import React from "react";
+import React, { useState, createContext } from "react";
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import ApplicationBar from "./components/ApplicationBar";
-import authContext from "./authContext";
+// import authContext from "./authContext";
 
 // Pages
 import Dashboard from "./components/Dashboard";
@@ -29,7 +29,8 @@ const currentUser = {
   profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
 };
 
-const activeUser = {
+const activeUserData = {
+  profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
   username: "Nicklaus.Balistreri51",
   email: "Daisy41@yahoo.com",
   firstName: "Alysa",
@@ -78,11 +79,14 @@ const activeUser = {
   ],
 };
 
+const authContext = createContext();
+
 function App() {
   const classes = useStyles();
+  const [activeUser, setActiveUser] = useState(activeUserData);
 
   return (
-    <authContext.Provider value={currentUser}>
+    <authContext.Provider value={{ activeUser, setActiveUser }}>
       <div className={classes.root}>
         <ApplicationBar />
         <CssBaseline />
@@ -104,3 +108,4 @@ function App() {
 }
 
 export default App;
+export { authContext };
