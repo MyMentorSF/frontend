@@ -10,7 +10,7 @@ import MenuBookIcon from "@material-ui/icons/MenuBook";
 import ClassIcon from "@material-ui/icons/Class";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import BusinessIcon from "@material-ui/icons/Business";
-
+import axios from "axios";
 import { authContext } from "../App";
 import { user as serverResponse } from "./stub";
 
@@ -141,6 +141,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const query = `
+  {
+    users(uuid: "a2isi4gs4t5ipaa39xunbd"){
+      uuid
+    username
+    interests
+    email
+    firstName
+    lastName
+    pronoun
+    yearsOfExperience
+    description
+    role
+    location
+    department
+    education{
+      school
+      gradDate
+      degreeType
+      major
+    }
+    }
+  }
+`;
+
 export default function Profile({ match }) {
   // const {
   //   activeUser: [activeUser, setActiveUser],
@@ -152,25 +177,56 @@ export default function Profile({ match }) {
   const [userPrivate, setUserPrivate] = useState(null);
   const [random, setRandom] = useState();
 
+  // axios({
+  //   url: 'https://1jzxrj179.lp.gql.zone/graphql',
+  //   method: 'post',
+  //   data: {
+  //     query: `
+  //       query PostsForAuthor {
+  //         author(id: 1) {
+  //           firstName
+  //             posts {
+  //               title
+  //               votes
+  //             }
+  //           }
+  //         }
+  //       `
+  //   }
+  // })
+
   useEffect(() => {
     async function getUserProfile() {
-      console.log("auth", activeUser);
-      let response = await fetch(
-        "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
-      );
+      const response = await axios({
+        url: "http://localhost:4000/graphql",
+        method: "POST",
+        data: {
+          query: query,
+        },
+      });
+      console.log("response:", response);
+      setUser(response.data.data.users[0]);
+      // let response = await fetch(
+      //   "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
+      // );
 
-      response = await response.json();
-      setUser(response.results[0].publicProfile);
-      setUserPrivate(response.results[0].privateProfile);
+      // response = await response.json();
+      // setUser(response.results[0].publicProfile);
+      // setUserPrivate(response.results[0].privateProfile);
     }
 
-    if (activeUser) {
+    if (
+      match.params.username !== undefined &&
+      activeUser.username !== match.params.username
+    ) {
       // Viewing logged in user profile
       // getUserProfile();
-      setUser(activeUser);
+      console.log("viewing someone elses");
+      getUserProfile();
     } else {
       // Viewing someone elses profile
-      getUserProfile();
+      console.log("personal");
+      setUser(activeUser);
     }
   }, [match.params.uuid]);
 
@@ -225,14 +281,16 @@ export default function Profile({ match }) {
           <br />
           <br />
           <Box display="flex" justifyContent="center">
-            <Button
-              size="medium"
-              variant="contained"
-              color="primary"
-              startIcon={<SupervisorAccountIcon />}
-            >
-              Request
-            </Button>
+            {user.username !== activeUser.username && (
+              <Button
+                size="medium"
+                variant="contained"
+                color="primary"
+                startIcon={<SupervisorAccountIcon />}
+              >
+                Request
+              </Button>
+            )}
           </Box>
         </Box>
 
