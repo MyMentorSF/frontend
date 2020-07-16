@@ -1,5 +1,4 @@
 import "fontsource-roboto";
-import "./App.css";
 import React, { useState, createContext } from "react";
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import ApplicationBar from "./components/ApplicationBar";
@@ -95,7 +94,7 @@ function App() {
 
         <div className={classes.mainDisplay}>
           <Switch>
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/" component={Dashboard} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/profile/:username" component={Profile} />
             <Route exact path="/search" component={SearchPage} />
