@@ -1,28 +1,48 @@
 import React, { useState, useEffect } from "react"
-import { Paper, makeStyles, fade, TextField, Chip } from "@material-ui/core"
+import { Paper, makeStyles, TextField, Chip, Typography, Card, CardActionArea, CardContent, CardMedia, GridList, GridListTile, CardActions, Button } from "@material-ui/core"
 import { Autocomplete } from "@material-ui/lab"
-import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { user } from "./stub"
+import { NavLink } from "react-router-dom";
+import { getAllUserData } from "./graphql/queries"
 
-const url = "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
-    marginTop: "4em",
-    padding: "2em",
+    marginTop: "1.5em",
+    marginBottom: "3em",
+    padding: "3em",
     position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.35),
-    },
   },
+  titleTop: {
+    marginBottom: "0.7em"
+  },
+  titleMid: {
+    marginTop: "1em",
+    marginBottom: "3em"
+  },
+  media: {
+    // paddingTop: "56.25%",
+    maxHeight: "285px"
+  },
+  grid: {
+    marginTop: "20em"
+  },
+  navItem: {
+    color: "inherit",
+    textDecoration: "none",
+  },
+  recommend: {
+    padding: "3em",
+
+  }
 }))
 
 export default function SearchBar({ props }) {
   const classes = useStyles()
 
   const [open, setOpen] = useState(false);
+  const [selectedMentor, setSelectedMentor] = useState()
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
 
@@ -32,12 +52,11 @@ export default function SearchBar({ props }) {
       return undefined
     }
     (async () => {
-      const response = await fetch(url)
-      const data = await response.json()
+      const response = await getAllUserData()
+      const filteredData = response?.users?.filter((person) => person.isMentor === true)
 
       if (active) {
-        console.log(data?.results[0])
-        setOptions(data?.results[0].privateProfile?.mentees ?? "")
+        setOptions(filteredData ?? "")
       }
     })();
 
@@ -52,36 +71,104 @@ export default function SearchBar({ props }) {
     }
   }, [open])
     
+  const handleOnChange = ({event, value}) => {
+    if (value) setSelectedMentor(value)
+    else setSelectedMentor("")
+    console.log(selectedMentor, event)
+  }
+
+  var style = {
+    float: "left",
+    width: "100%",
+    paddingRight: "0.3em"
+  }
+
   return (
     <>
       <Paper elevation={3} className={classes.searchBar}>
-        <div>
-          <SearchIcon />
+        <Typography variant="h2" className={classes.titleTop}>Search Mentor</Typography>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Autocomplete
+            id="searchMentor"
+            autoHighlight
+            open={open}
+            options={options}
+            loading={loading}
+            onInputChange={(event, value) => setSelectedMentor(true)}
+            onOpen={() => setOpen(true)}
+            onClose={() => setOpen(false)}
+            noOptionsText={"Enter for options"}
+            getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+            style={{ fontSize: 15, ...style }}
+            renderInput={(params) => (
+              <>
+                <TextField
+                  fullWidth
+                  {...params}
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {params.InputProps.endAdornment}
+                      </>),
+                    style: {
+                      fontSize: 30
+                    }
+                  }}
+                />
+              </>
+            )}
+          />
+          {(selectedMentor) ? <Button variant="outlined" color="primary">View Profile</Button> : null}
         </div>
-        <Autocomplete
-          id="searchMentor"
-          open={open}
-          options={options}
-          loading={loading}
-          onOpen={() => setOpen(true)}
-          onClose={() => setOpen(false)}
-          noOptionsText={"Enter a name for options"}
-          getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search for Mentor"
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>)
-              }}
-            />
-          )}
-        />
+        <br />
+        <Typography variant="caption" component="p">Start typing an interest</Typography>
+      </Paper>
+
+      <Paper elevation={3} className={classes.recommend}>
+        <div className={classes.titleMid}>
+          <Typography variant="h4">Mentor Recommendations</Typography>
+          <Typography variant="body1">Based on your profile</Typography>
+        </div>
+        <GridList cols={3} spacing={30}>
+          {user.results[0].privateProfile.mentees.map((mentee, index) => (
+            <GridListTile key={index} style={{
+              height: "100%",
+              width: "30%"
+            }}>
+              <Card>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    component="img"
+                    image={`https://api.adorable.io/avatars/285/${mentee.username}.png`}
+                    // image={"https://source.unsplash.com/random"}
+                    title={`${mentee.firstName} ${mentee.lastName}`}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {`${mentee.firstName} ${mentee.lastName}`}
+                    </Typography>
+                    <Typography variant="overline">{`${mentee.role}`}</Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      {`${mentee.description}`}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <NavLink className={classes.navItem} to={`/profile/${mentee.username}`}>
+                    <Button
+                      size="small"
+                      color="primary"
+                      variant="outlined"
+                    >View Profile</Button>
+                  </NavLink>
+                </CardActions>
+              </Card>
+            </GridListTile>
+          ))}      
+        </GridList>
       </Paper>
     </>    
   )

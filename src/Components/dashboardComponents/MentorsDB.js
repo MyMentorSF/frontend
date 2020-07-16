@@ -137,7 +137,7 @@ function MentorsDB() {
   return (
     <Paper className={classes.card} elevation={4}>
       <Typography className={classes.title} variant="h5" color="inherit">
-        Mentors:
+        Mentors
       </Typography>
 
       <List className={classes.list}>

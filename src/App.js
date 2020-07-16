@@ -10,7 +10,7 @@ import Dashboard from "./components/Dashboard";
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import SearchPage from "./components/searchPage";
 
 const useStyles = makeStyles((theme) => ({
@@ -84,24 +84,26 @@ const authContext = createContext();
 function App() {
   const classes = useStyles();
   const [activeUser, setActiveUser] = useState(activeUserData);
+  var location = useLocation().pathname
 
   return (
     <authContext.Provider value={{ activeUser, setActiveUser }}>
       <div className={classes.root}>
-        <ApplicationBar />
+        {(location !== "/" && location !== "/homepage") ? 
+          <ApplicationBar /> : null}
         <CssBaseline />
+
         <div className={classes.mainDisplay}>
           <Switch>
-            <Route exact path="/" component={Homepage}>
-              {/* TODO AppBar different for logged in and homepage */}
-              <Redirect to="/homepage" />
-            </Route>
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/profile/" component={Profile} />
+            <Route exact path="/profile" component={Profile} />
             <Route exact path="/profile/:username" component={Profile} />
             <Route exact path="/search" component={SearchPage} />
           </Switch>
         </div>
+        {/* <Route exact path="/" component={Homepage}>
+          <Redirect to="/homepage" />
+        </Route> */}
       </div>
     </authContext.Provider>
   );

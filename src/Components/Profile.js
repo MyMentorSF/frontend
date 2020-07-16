@@ -8,11 +8,12 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import WorkIcon from "@material-ui/icons/Work";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import ClassIcon from "@material-ui/icons/Class";
-import AssessmentIcon from "@material-ui/icons/Assessment";
 import BusinessIcon from "@material-ui/icons/Business";
 import axios from "axios";
 import { authContext } from "../App";
 import { user as serverResponse } from "./stub";
+import {getUserProfileData} from "./graphql/queries"
+import {useLocation} from "react-router-dom"
 
 const mainColor = "#EDEDED";
 const lightBlack = "#363636";
@@ -229,9 +230,9 @@ export default function Profile({ match }) {
       setUser(activeUser);
       getReviews();
     }
-  }, [match.params.uuid]);
+  }, [activeUser, match.params.username, userReviews]);
 
-  if (!user) return <>Loading</>;
+  if (!user) return <>Loading...</>;
 
   return (
     <div className={classes.root}>
