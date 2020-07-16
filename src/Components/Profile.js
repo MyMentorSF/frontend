@@ -9,8 +9,8 @@ import WorkIcon from "@material-ui/icons/Work";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import ClassIcon from "@material-ui/icons/Class";
 import BusinessIcon from "@material-ui/icons/Business";
-
-import authContext from "../authContext";
+import axios from "axios";
+import { authContext } from "../App";
 import { user as serverResponse } from "./stub";
 import {getUserProfileData} from "./graphql/queries"
 import {useLocation} from "react-router-dom"
@@ -142,32 +142,97 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const queryAll = `
+{
+  users{
+    uuid
+    username
+    firstName
+    lastName
+    interests
+    description
+    role
+    location
+    department
+  }
+}
+`;
+const query = `
+  {
+    users(uuid: "a2isi4gs4t5ipaa39xunbd"){
+      uuid
+      username
+      interests
+      email
+      firstName
+      lastName
+      pronoun
+      yearsOfExperience
+      description
+      role
+      location
+      department
+      education{
+        school
+        gradDate
+        degreeType
+        major
+      }
+    }
+  }
+`;
+
 export default function Profile({ match }) {
-  const authUser = useContext(authContext);
-  const classes = useStyles({ img: authUser.profileImage });
+  // const {
+  //   activeUser: [activeUser, setActiveUser],
+  // } = useContext(authContext);
+  const { activeUser, setActiveUser } = useContext(authContext);
+
+  const classes = useStyles({ img: activeUser.profileImage });
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
-  const [random, setRandom] = useState();
   var location = useLocation().pathname
 
+  const [userReviews, setUserReviews] = useState([]);
 
   useEffect(() => {
     async function getUserProfile() {
-      console.log("auth", authUser);
-      let response = await getUserProfileData("aknsv61vhbjaq9ta5ry9qx")
-      console.log(response)
-      setUser(response?.users[0]);
-      // setUserPrivate(response);
+      const response = await axios({
+        url: "http://localhost:4000/graphql",
+        method: "POST",
+        data: {
+          query: query,
+        },
+      });
+      setUser(response.data.data.users[0]);
     }
-
-    if (true) {
+    async function getReviews() {
+      const responseAll = await axios({
+        url: "http://localhost:4000/graphql",
+        method: "POST",
+        data: {
+          query: queryAll,
+        },
+      });
+      setUserReviews([...userReviews, responseAll.data.data.users]);
+      console.log("responseall:", responseAll.data.data.users);
+    }
+    if (
+      match.params.username !== undefined &&
+      activeUser.username !== match.params.username
+    ) {
       // Viewing logged in user profile
+      // getUserProfile();
+      console.log("viewing someone elses");
       getUserProfile();
+      getReviews();
     } else {
       // Viewing someone elses profile
-      getUserProfile();
+      console.log("personal");
+      setUser(activeUser);
+      getReviews();
     }
-  }, [authUser]);
+  }, [activeUser, match.params.username, userReviews]);
 
   if (!user) return <>Loading...</>;
 
@@ -175,25 +240,27 @@ export default function Profile({ match }) {
     <div className={classes.root}>
       <div className={classes.header}>
         <div className={classes.headerLeft}></div>
-        {(location !== `/profile/${match.params.username}`) ? <div className={classes.editProfile}>
-          <Box boxShadow={3}>
-            <Button
-              size="small"
-              variant="contained"
-              color="secondary"
-              startIcon={<EditIcon />}
-            >
-              Edit Profile
-            </Button>
-          </Box>
-        </div> : null}
+        <div className={classes.editProfile}>
+          {user.username === activeUser.username && (
+            <Box boxShadow={3}>
+              <Button
+                size="small"
+                variant="contained"
+                color="secondary"
+                startIcon={<EditIcon />}
+              >
+                Edit Profile
+              </Button>
+            </Box>
+          )}
+        </div>
       </div>
 
       <Container className={classes.body}>
         <Box className={classes.asideLeft}>
           <Box
             boxShadow={3}
-            // style={{ background: `url(${authUser.profileImage}) grey` }}
+            // style={{ background: `url(${activeUser.profileImage}) grey` }}
             className={classes.profilePic}
           ></Box>
           <Typography variant="h6">
@@ -219,17 +286,18 @@ export default function Profile({ match }) {
           <br />
           <br />
           <br />
-          {(location !== "/profile") ? <Box display="flex" justifyContent="center">
-            <Button
-              size="medium"
-              variant="contained"
-              color="primary"
-              startIcon={<SupervisorAccountIcon />}
-            >
-              Request
-            </Button>
-          </Box> : null}
-          
+          <Box display="flex" justifyContent="center">
+            {user.username !== activeUser.username && (
+              <Button
+                size="medium"
+                variant="contained"
+                color="primary"
+                startIcon={<SupervisorAccountIcon />}
+              >
+                Request
+              </Button>
+            )}
+          </Box>
         </Box>
 
         <Box className={classes.content}>
@@ -238,6 +306,32 @@ export default function Profile({ match }) {
             <Typography variant="h5" gutterBottom>
               Reviews
             </Typography>
+            {/* {userReviews && userReviews.map((rev) => <div>test</div>)}
+            {userReviews &&
+              userReviews.map((rvw) => (
+                <Box className={classes.review} key={rvw.username}>
+                  <Box
+                    display="flex"
+                    alignItems="flex-end"
+                    className={classes.reviewHeader}
+                  >
+                    <Box className={classes.reviewImage}></Box>
+                    <Typography variant="h6">
+                      {console.log("fname", rvw)} {rvw.lastName}
+                    </Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    alignItems="flex-end"
+                    className={classes.reviewBody}
+                  >
+                    <Typography variant="body2" color="textSecondary">
+                      {rvw && rvw.description}
+                    </Typography>
+                  </Box>
+                </Box>
+              ))} */}
+
             <Box className={classes.review}>
               <Box
                 display="flex"
@@ -245,7 +339,7 @@ export default function Profile({ match }) {
                 className={classes.reviewHeader}
               >
                 <Box className={classes.reviewImage}></Box>
-                <Typography variant="h6">Dale Ortega</Typography>
+                <Typography variant="h6">Oswald Prosacco</Typography>
               </Box>
               <Box
                 display="flex"

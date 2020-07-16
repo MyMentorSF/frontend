@@ -2,7 +2,7 @@ import "fontsource-roboto";
 import React from "react";
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import ApplicationBar from "./components/ApplicationBar";
-import authContext from "./authContext";
+// import authContext from "./authContext";
 
 // Pages
 import Dashboard from "./components/Dashboard";
@@ -15,7 +15,6 @@ import SearchPage from "./components/searchPage";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#EDEDED",
-
   },
   mainDisplay: {
     margin: "0px 150px 0px 150px",
@@ -27,7 +26,8 @@ const currentUser = {
   profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
 };
 
-const activeUser = {
+const activeUserData = {
+  profileImage: "https://api.adorable.io/avatars/240/abott2@adorable2.png",
   username: "Nicklaus.Balistreri51",
   email: "Daisy41@yahoo.com",
   firstName: "Alysa",
@@ -76,12 +76,15 @@ const activeUser = {
   ],
 };
 
+const authContext = createContext();
+
 function App() {
   const classes = useStyles();
   var location = useLocation().pathname
+  const [activeUser, setActiveUser] = useState(activeUserData);
 
   return (
-    <authContext.Provider value={currentUser}>
+    <authContext.Provider value={{ activeUser, setActiveUser }}>
       <div className={classes.root}>
         {(location !== "/" && location !== "/homepage") ? 
           <ApplicationBar /> : null}
@@ -104,3 +107,4 @@ function App() {
 }
 
 export default App;
+export { authContext };
