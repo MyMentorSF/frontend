@@ -37,7 +37,7 @@ function App() {
           </Route>
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/profile/" component={Profile} />
-          <Route exact path="/profile/:uuid" component={Profile} />
+          <Route exact path="/profile/:username" component={Profile} />
           <Route exact path="/search" component={SearchPage} />
         </Switch>
       </div>
