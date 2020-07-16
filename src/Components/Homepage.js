@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     zIndex: 100,
-    backgroundColor: `${radial-gradient(#1a786a, 2de3c8)}`,
     height: "100vh"
 
   }
