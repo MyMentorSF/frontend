@@ -121,7 +121,7 @@ function MentorsDB() {
       });
       console.log("response", response.data.data.connections);
       // filter for where activeUser is a mentee
-      const filteredResponse = response.data.data.connections.filter(
+      const filteredResponse = response?.data?.data?.connections?.filter(
         (resp) => resp.menteeUUID === "a2isi4gs4t5ipaa39xunbd"
       );
       console.log("filted", filteredResponse);
@@ -132,7 +132,7 @@ function MentorsDB() {
         });
       }
     })();
-  }, []);
+  }, [mentors]);
 
   return (
     <Paper className={classes.card} elevation={4}>

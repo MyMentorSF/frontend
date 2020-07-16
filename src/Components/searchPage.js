@@ -74,7 +74,7 @@ export default function SearchBar({ props }) {
   const handleOnChange = ({event, value}) => {
     if (value) setSelectedMentor(value)
     else setSelectedMentor("")
-    console.log(selectedMentor, event)
+    console.log(value, event)
   }
 
   var style = {
@@ -92,13 +92,13 @@ export default function SearchBar({ props }) {
             id="searchMentor"
             autoHighlight
             open={open}
-            options={options}
+            options={options.map((option) => `${option.firstName} ${option.lastName}`)}
             loading={loading}
-            onInputChange={(event, value) => setSelectedMentor(true)}
+            onChange={handleOnChange}
             onOpen={() => setOpen(true)}
             onClose={() => setOpen(false)}
             noOptionsText={"Enter for options"}
-            getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+            // getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
             style={{ fontSize: 15, ...style }}
             renderInput={(params) => (
               <>
