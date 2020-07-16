@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "50em",
     maxHeight: "25em",
     height: "25em",
-    background: "linear-gradient(180deg, #231F38 23%, #FAFAFA 23%)",
+    background: "linear-gradient(180deg, #E6924B 23%, #FAFAFA 23%)",
   },
   list: {
     width: "100%",
@@ -66,6 +66,7 @@ function MentorsDB() {
       <Typography className={classes.title} variant="h5" color="inherit">
         Mentors:
       </Typography>
+
       <List className={classes.list}>
         {[0, 1, 2, 3, 4, 5, 6].map((value) => {
           return (
