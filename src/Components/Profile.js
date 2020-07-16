@@ -130,10 +130,12 @@ export default function Profile({ uuid, match }) {
   const [userPrivate, setUserPrivate] = useState(null);
 
   useEffect(() => {
-    console.log("Params:", match?.params);
+    const uuid = match.params.uuid;
+    console.log("current UUID", uuid);
+
     setUser(serverResponse.results[0].publicProfile);
     setUserPrivate(serverResponse.results[0].privateProfile);
-  }, []);
+  }, [match.params.uuid]);
 
   if (!user) return <>Loading</>;
 

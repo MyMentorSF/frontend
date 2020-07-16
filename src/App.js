@@ -36,7 +36,8 @@ function App() {
             <Redirect to="/homepage" />
           </Route>
           <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile/" component={Profile} />
+          <Route exact path="/profile/:uuid" component={Profile} />
           <Route exact path="/search" component={SearchPage} />
         </Switch>
       </div>
