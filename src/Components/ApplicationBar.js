@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core";
 import {
   Toolbar,
@@ -9,7 +9,7 @@ import {
   Avatar,
 } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
-
+import authContext from "../authContext";
 import logo from "./imgs/profile_pic.jpg";
 
 // Icons
@@ -23,7 +23,7 @@ import { NavLink } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     flexGrow: 1,
-    backgroundColor: "#f01716",
+    backgroundColor: "#78CAFF",
   },
   title: {
     fontFamily: "Roboto",
@@ -39,8 +39,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    height: "32px",
-    width: "32px",
+    height: "42px",
+    width: "42px",
+    borderRadius: "4px",
   },
   navItem: {
     color: "inherit",
@@ -49,13 +50,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ApplicationBar() {
+  const authUser = useContext(authContext);
   const classes = useStyles();
+
   return (
     <AppBar className={classes.appBar} position="static">
       <Toolbar color="inherit">
         <NavLink to="/homepage" className={classes.navItem}>
           <ButtonBase focusRipple aria-label="go to dashboard" color="inherit">
-            <img className={classes.avatar} src={logo} alt="Logo" />
+            <img
+              className={classes.avatar}
+              src={authUser.profileImage}
+              alt="Logo"
+            />
             <Typography className={classes.title}>MY MENTOR</Typography>
           </ButtonBase>
         </NavLink>

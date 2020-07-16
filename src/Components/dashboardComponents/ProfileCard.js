@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     width: "50em",
     maxWidth: "50em",
     height: "25em",
-    background: "linear-gradient(180deg, #B39462 23%, #FAFAFA 23%)",
+    background: "linear-gradient(180deg, #FFDBC6 23%, #FAFAFA 23%)",
   },
   avatar: {
     height: 100,
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: 2,
-    color: "#f01716",
+    color: "#42331D",
     backgroundColor: "#fafafa",
   },
 }));
