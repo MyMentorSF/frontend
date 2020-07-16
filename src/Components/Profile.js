@@ -8,11 +8,12 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import WorkIcon from "@material-ui/icons/Work";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import ClassIcon from "@material-ui/icons/Class";
-import AssessmentIcon from "@material-ui/icons/Assessment";
 import BusinessIcon from "@material-ui/icons/Business";
 
 import authContext from "../authContext";
 import { user as serverResponse } from "./stub";
+import {getUserProfileData} from "./graphql/queries"
+import {useLocation} from "react-router-dom"
 
 const mainColor = "#EDEDED";
 const lightBlack = "#363636";
@@ -147,17 +148,16 @@ export default function Profile({ match }) {
   const [user, setUser] = useState(null);
   const [userPrivate, setUserPrivate] = useState(null);
   const [random, setRandom] = useState();
+  var location = useLocation().pathname
+
 
   useEffect(() => {
     async function getUserProfile() {
       console.log("auth", authUser);
-      let response = await fetch(
-        "https://randomapi.com/api/9d3e9cbd9a2aa361c180f5d83b7218d8"
-      );
-
-      response = await response.json();
-      setUser(response.results[0].publicProfile);
-      setUserPrivate(response.results[0].privateProfile);
+      let response = await getUserProfileData("aknsv61vhbjaq9ta5ry9qx")
+      console.log(response)
+      setUser(response?.users[0]);
+      // setUserPrivate(response);
     }
 
     if (true) {
@@ -167,15 +167,15 @@ export default function Profile({ match }) {
       // Viewing someone elses profile
       getUserProfile();
     }
-  }, [match.params.uuid]);
+  }, [authUser]);
 
-  if (!user) return <>Loading</>;
+  if (!user) return <>Loading...</>;
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
         <div className={classes.headerLeft}></div>
-        <div className={classes.editProfile}>
+        {(location !== `/profile/${match.params.username}`) ? <div className={classes.editProfile}>
           <Box boxShadow={3}>
             <Button
               size="small"
@@ -186,7 +186,7 @@ export default function Profile({ match }) {
               Edit Profile
             </Button>
           </Box>
-        </div>
+        </div> : null}
       </div>
 
       <Container className={classes.body}>
@@ -219,7 +219,7 @@ export default function Profile({ match }) {
           <br />
           <br />
           <br />
-          <Box display="flex" justifyContent="center">
+          {(location !== "/profile") ? <Box display="flex" justifyContent="center">
             <Button
               size="medium"
               variant="contained"
@@ -228,7 +228,8 @@ export default function Profile({ match }) {
             >
               Request
             </Button>
-          </Box>
+          </Box> : null}
+          
         </Box>
 
         <Box className={classes.content}>

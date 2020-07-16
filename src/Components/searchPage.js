@@ -4,8 +4,8 @@ import { Autocomplete } from "@material-ui/lab"
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { user } from "./stub"
 import { NavLink } from "react-router-dom";
+import { getAllUserData } from "./graphql/queries"
 
-import dataArray from "../frontend.json"
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
@@ -42,6 +42,7 @@ export default function SearchBar({ props }) {
   const classes = useStyles()
 
   const [open, setOpen] = useState(false);
+  const [selectedMentor, setSelectedMentor] = useState()
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
 
@@ -51,13 +52,10 @@ export default function SearchBar({ props }) {
       return undefined
     }
     (async () => {
-      // const response = await fetch(url)
-      // const data = await response.json()
-      const data = dataArray
-      const filteredData = data.filter((person) => person.isMentor === true)
+      const response = await getAllUserData()
+      const filteredData = response?.users?.filter((person) => person.isMentor === true)
 
       if (active) {
-        console.log(data)
         setOptions(filteredData ?? "")
       }
     })();
@@ -73,41 +71,59 @@ export default function SearchBar({ props }) {
     }
   }, [open])
     
+  const handleOnChange = ({event, value}) => {
+    if (value) setSelectedMentor(value)
+    else setSelectedMentor("")
+    console.log(selectedMentor, event)
+  }
+
+  var style = {
+    float: "left",
+    width: "100%",
+    paddingRight: "0.3em"
+  }
+
   return (
     <>
       <Paper elevation={3} className={classes.searchBar}>
         <Typography variant="h2" className={classes.titleTop}>Search Mentor</Typography>
-        <Autocomplete
-          id="searchMentor"
-          autoHighlight
-          open={open}
-          options={options}
-          loading={loading}
-          onOpen={() => setOpen(true)}
-          onClose={() => setOpen(false)}
-          noOptionsText={"Enter for options"}
-          getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-          style={{ fontSize: 15 }}
-          renderInput={(params) => (
-            <>
-              <TextField
-                {...params}
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <>
-                      {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </>),
-                  style: {
-                    fontSize: 30
-                  }
-                }}
-              />
-            </>
-          )}
-        />
-        <Typography variant="caption">Start typing an interest</Typography>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Autocomplete
+            id="searchMentor"
+            autoHighlight
+            open={open}
+            options={options}
+            loading={loading}
+            onInputChange={(event, value) => setSelectedMentor(true)}
+            onOpen={() => setOpen(true)}
+            onClose={() => setOpen(false)}
+            noOptionsText={"Enter for options"}
+            getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+            style={{ fontSize: 15, ...style }}
+            renderInput={(params) => (
+              <>
+                <TextField
+                  fullWidth
+                  {...params}
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {params.InputProps.endAdornment}
+                      </>),
+                    style: {
+                      fontSize: 30
+                    }
+                  }}
+                />
+              </>
+            )}
+          />
+          {(selectedMentor) ? <Button variant="outlined" color="primary">View Profile</Button> : null}
+        </div>
+        <br />
+        <Typography variant="caption" component="p">Start typing an interest</Typography>
       </Paper>
 
       <Paper elevation={3} className={classes.recommend}>
